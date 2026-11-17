@@ -1,5 +1,7 @@
 <title>TADAWA Telemedicine Guide</title>
 <meta name="claude:viewport-fit-sides" content="cover">
+<meta name="theme-color" content="#115e6d">
+<meta name="mobile-web-app-capable" content="yes">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Readex+Pro:wght@300;400;500;600;700&display=swap">
 <style>
 /* Layout: an app-style story. One idea per full screen: a big visual on top, a few words below, tap / swipe / Next to advance.
@@ -356,6 +358,54 @@ button.tile:hover{transform:translateY(-2px);box-shadow:var(--shadow-3);border-c
   .s.vid .video img{aspect-ratio:16/7}
   .s .tx{padding-top:10px;gap:7px}
 }
+
+/* Artwork as the background: the scene sits behind the top of the screen and melts into the screen colour; words sit below it */
+.s.full,.s.full.tall,.s.full.low{background:var(--c);padding-top:0;grid-template-rows:minmax(0,calc(var(--a) + 44px + env(safe-area-inset-top,0px))) minmax(0,1fr);grid-template-columns:none}
+.s.full{--a:46%} .s.full.tall{--a:33%} .s.full.low{--a:35%}
+.s.full .art,.s.full.tall .art{display:block;padding:0}
+.s.full .tx{position:relative;z-index:1;padding-top:6px}
+.bgimg{position:absolute;z-index:0;top:calc(44px + env(safe-area-inset-top,0px));left:50%;height:calc(var(--a) * var(--f,2));width:auto;max-width:none;transform:translateX(-50%);pointer-events:none;user-select:none;
+  opacity:0;transition:opacity var(--slow) var(--ease);
+  -webkit-mask-image:linear-gradient(to right,rgba(0,0,0,0),#000 7%,#000 93%,rgba(0,0,0,0));mask-image:linear-gradient(to right,rgba(0,0,0,0),#000 7%,#000 93%,rgba(0,0,0,0))}
+.s.on .bgimg{opacity:1}
+.s.full.dark{color:var(--white)}
+.s.full.dark p{color:var(--on-brand-muted)}
+.s.full.dark .eyebrow{color:var(--teal-200)}
+.s.full.dark .badge{background:var(--fill-on-brand-2);color:var(--white)}
+.s.full.dark h1 em,.s.full.dark h2 em{color:var(--white)}
+.s.full.dark .btn:focus-visible{box-shadow:var(--focus-on-brand)}
+.swipe{display:inline-flex;align-items:center;gap:8px;font-size:13px;font-weight:500;color:var(--on-brand-muted);margin-top:2px}
+.swipe i{font-size:20px;animation:nudge 1.8s var(--ease) infinite}
+@keyframes nudge{0%,100%{translate:0 0}50%{translate:6px 0}}
+[dir="rtl"] .swipe i{animation-name:nudge-r}
+@keyframes nudge-r{0%,100%{translate:0 0}50%{translate:-6px 0}}
+@media (prefers-reduced-motion:reduce){ .swipe i{animation:none} }
+
+/* Touch: no tap flash, no double-tap zoom, no rubber-band scroll behind the story */
+html,body{overscroll-behavior:none}
+.card{touch-action:pan-y;-webkit-tap-highlight-color:transparent}
+.card button,.card a,.top,.bot{-webkit-tap-highlight-color:transparent;touch-action:manipulation}
+.top,.bot,.tbtn,.go,.back,.badge,.eyebrow{user-select:none;-webkit-user-select:none}
+.s p{font-size:16.5px}
+.s p.sm{font-size:14px}
+
+@media (max-width:899px) and (max-height:720px){
+  .s.full{--a:40%} .s.full.tall{--a:31%} .s.full.low{--a:30%}
+  .s p{font-size:15px}
+}
+@media (max-width:899px) and (max-height:610px){
+  .s.full{--a:35%} .s.full.tall{--a:19%} .s.full.low{--a:25%} .s.full.haspulse{--a:27%!important}
+  .s.full.tall,.s.full.low{grid-template-rows:minmax(0,calc(var(--a) + 44px)) minmax(0,1fr)}
+  .s p{font-size:14.5px}
+  .swipe{display:none}
+}
+@media (min-width:900px){
+  .s.full,.s.full.tall,.s.full.low{grid-template-rows:minmax(0,1fr);grid-template-columns:minmax(0,45%) minmax(0,1fr)}
+  .s.full .tx{padding-top:8px}
+  .bgimg{top:13%;height:134%;left:23.5%}
+  [dir="rtl"] .bgimg{left:76.5%}
+  .s p{font-size:16px}
+}
 </style>
 <!--BODY-->
 <div class="stage">
@@ -380,19 +430,20 @@ button.tile:hover{transform:translateY(-2px);box-shadow:var(--shadow-3);border-c
     </header>
 
     <!-- 1 Cover -->
-    <section class="s bg-teal haspulse cover" data-chrome="dark" data-ch="top">
-      <div class="art"><div class="disc"><img src="{{IMG:ill-cover.webp}}" alt="" width="820" height="820"></div></div>
+    <section class="s full dark haspulse" style="--c:#0d6474;--a:41%;--f:1.72" data-chrome="dark" data-ch="top">
+      <img class="bgimg" src="{{IMG:bg-cover.webp}}" alt="" width="720" height="1280"><div class="art"></div>
       <div class="tx">
         <span class="badge"><i class="ph-fill ph-book-open-text"></i><span data-t="heroTag">Telemedicine guide</span></span>
         <h1 data-t="heroH1">Your personal doctor, wherever you are</h1>
         <p data-t="heroLead">A simple guide to using TADAWA telemedicine services, from your first consultation to follow-up and referral when you need it.</p>
+        <span class="swipe"><i class="ph ph-hand-swipe-right flip"></i><span data-t="swipe">Swipe or tap to continue</span></span>
       </div>
       <div class="hb" data-peak=".7" data-s=".3"></div>
     </section>
 
     <!-- 2 Welcome -->
-    <section class="s bg-sand" data-chrome="light" data-ch="welcome">
-      <div class="art"><img class="ill" src="{{IMG:ill-welcome.webp}}" alt="" width="820" height="820"></div>
+    <section class="s full" style="--c:#f8efe0;--f:1.58" data-chrome="light" data-ch="welcome">
+      <img class="bgimg" src="{{IMG:bg-welcome.webp}}" alt="" width="720" height="1280"><div class="art"></div>
       <div class="tx">
         <span class="eyebrow" data-t="wNoteK">A note from us</span>
         <h2 data-t="wH">Welcome to <em>TADAWA</em></h2>
@@ -433,8 +484,8 @@ button.tile:hover{transform:translateY(-2px);box-shadow:var(--shadow-3);border-c
     </section>
 
     <!-- 5 Step 1 -->
-    <section class="s bg-sand" data-chrome="light" data-ch="start">
-      <div class="art"><img class="ill" src="{{IMG:ill-activate.webp}}" alt="" width="820" height="820"></div>
+    <section class="s full" style="--c:#d7eaf1" data-chrome="light" data-ch="start">
+      <img class="bgimg" src="{{IMG:bg-activate.webp}}" alt="" width="720" height="1280"><div class="art"></div>
       <div class="tx">
         <span class="badge"><i class="ph-fill ph-number-circle-one"></i><span data-t="step1">Step 1 of 3</span></span>
         <h2 data-t="s1h">Account activation</h2>
@@ -443,8 +494,8 @@ button.tile:hover{transform:translateY(-2px);box-shadow:var(--shadow-3);border-c
     </section>
 
     <!-- 6 Step 2 -->
-    <section class="s bleed" data-chrome="dark">
-      <div class="art"><img class="photo" src="{{IMG:vid1.webp}}" alt="" width="540" height="960"></div>
+    <section class="s full dark" style="--c:#1a5e6e" data-chrome="dark" >
+      <img class="bgimg" src="{{IMG:bg-download.webp}}" alt="" width="720" height="1280"><div class="art"></div>
       <div class="tx">
         <span class="badge"><i class="ph-fill ph-number-circle-two"></i><span data-t="step2">Step 2 of 3</span></span>
         <h2 data-t="s2h">Download the app and create your medical file</h2>
@@ -485,8 +536,8 @@ button.tile:hover{transform:translateY(-2px);box-shadow:var(--shadow-3);border-c
     </section>
 
     <!-- 9 Why -->
-    <section class="s bg-sand tall" data-chrome="light" data-ch="why">
-      <div class="art"><img class="ill" src="{{IMG:ill-time.webp}}" alt="" width="820" height="820"></div>
+    <section class="s full tall" style="--c:#f5e9db" data-chrome="light" data-ch="why">
+      <img class="bgimg" src="{{IMG:bg-time.webp}}" alt="" width="720" height="1280"><div class="art"></div>
       <div class="tx">
         <span class="eyebrow" data-t="yEyebrow">Why TADAWA?</span>
         <h2 data-t="yH">Why TADAWA is <em>your best choice</em></h2>
@@ -500,8 +551,8 @@ button.tile:hover{transform:translateY(-2px);box-shadow:var(--shadow-3);border-c
     </section>
 
     <!-- 10 Treat Me Now -->
-    <section class="s bg-tint" data-chrome="light" data-ch="services" data-id="now">
-      <div class="art"><img class="ill" src="{{IMG:ill-now.webp}}" alt="" width="820" height="820"></div>
+    <section class="s full" style="--c:#d4e7ec" data-chrome="light" data-ch="services" data-id="now">
+      <img class="bgimg" src="{{IMG:bg-now.webp}}" alt="" width="720" height="1280"><div class="art"></div>
       <div class="tx">
         <span class="badge"><i class="ph-fill ph-lightning"></i><span data-t="p1tag">Urgent case</span></span>
         <h2 data-t="svcNow">Treat Me Now</h2>
@@ -510,8 +561,8 @@ button.tile:hover{transform:translateY(-2px);box-shadow:var(--shadow-3);border-c
     </section>
 
     <!-- 11 Remote visit -->
-    <section class="s bleed" data-chrome="dark" data-id="remote">
-      <div class="art"><img class="photo" src="{{IMG:vid6.webp}}" alt="" width="540" height="960" style="object-position:50% 40%"></div>
+    <section class="s full dark" style="--c:#1d6170" data-chrome="dark" data-id="remote">
+      <img class="bgimg" src="{{IMG:bg-remote.webp}}" alt="" width="720" height="1280"><div class="art"></div>
       <div class="tx">
         <span class="badge"><i class="ph-fill ph-calendar-check"></i><span data-t="p2tag">On your schedule</span></span>
         <h2 data-t="svcRemote">Remote visit</h2>
@@ -520,8 +571,8 @@ button.tile:hover{transform:translateY(-2px);box-shadow:var(--shadow-3);border-c
     </section>
 
     <!-- 12 Clinic visit -->
-    <section class="s bg-sand" data-chrome="light" data-id="clinic">
-      <div class="art"><img class="ill" src="{{IMG:ill-clinic.webp}}" alt="" width="820" height="820"></div>
+    <section class="s full" style="--c:#f6ebdc" data-chrome="light" data-id="clinic">
+      <img class="bgimg" src="{{IMG:bg-clinic.webp}}" alt="" width="720" height="1280"><div class="art"></div>
       <div class="tx">
         <span class="badge"><i class="ph-fill ph-stethoscope"></i><span data-t="p3tag">Physical examination</span></span>
         <h2 data-t="svcClinic">Clinic visit</h2>
@@ -531,8 +582,8 @@ button.tile:hover{transform:translateY(-2px);box-shadow:var(--shadow-3);border-c
     </section>
 
     <!-- 13 Follow-up and referral -->
-    <section class="s bg-tint" data-chrome="light" data-id="follow">
-      <div class="art"><img class="ill" src="{{IMG:ill-referral.webp}}" alt="" width="820" height="820"></div>
+    <section class="s full" style="--c:#d5e8ef" data-chrome="light" data-id="follow">
+      <img class="bgimg" src="{{IMG:bg-referral.webp}}" alt="" width="720" height="1280"><div class="art"></div>
       <div class="tx">
         <span class="badge"><i class="ph-fill ph-arrow-bend-up-right flip"></i><span data-t="followTag">When you need it</span></span>
         <h2 data-t="svcFollow">Follow-up and referral</h2>
@@ -541,8 +592,8 @@ button.tile:hover{transform:translateY(-2px);box-shadow:var(--shadow-3);border-c
     </section>
 
     <!-- 14 Benefits -->
-    <section class="s bg-teal tall" data-chrome="dark" data-ch="benefits">
-      <div class="art"><div class="disc"><img src="{{IMG:ill-benefit.webp}}" alt="" width="820" height="820"></div></div>
+    <section class="s full dark low" style="--c:#1b6371" data-chrome="dark" data-ch="benefits">
+      <img class="bgimg" src="{{IMG:bg-benefit.webp}}" alt="" width="720" height="1280"><div class="art"></div>
       <div class="tx">
         <span class="eyebrow" data-t="bEyebrow">Just for you</span>
         <h2 data-t="bH">Extra benefits with TADAWA services</h2>
@@ -574,8 +625,8 @@ button.tile:hover{transform:translateY(-2px);box-shadow:var(--shadow-3);border-c
     </section>
 
     <!-- 16 Clinics -->
-    <section class="s bg-sand tall" data-chrome="light" data-ch="clinics" data-id="clinics">
-      <div class="art"><img class="ill" src="{{IMG:ill-clinic.webp}}" alt="" width="820" height="820"></div>
+    <section class="s full tall" style="--c:#f6ebdc" data-chrome="light" data-ch="clinics" data-id="clinics">
+      <img class="bgimg" src="{{IMG:bg-clinic.webp}}" alt="" width="720" height="1280"><div class="art"></div>
       <div class="tx">
         <span class="eyebrow" data-t="cEyebrow">Visit us</span>
         <h2 data-t="cH">Clinic <em>locations</em></h2>
@@ -696,6 +747,7 @@ button.tile:hover{transform:translateY(-2px);box-shadow:var(--shadow-3);border-c
   AR.step1='الخطوة 1 من 3'; AR.step2='الخطوة 2 من 3'; AR.step3='الخطوة 3 من 3';
   AR.followTag='عند الحاجة'; AR.b2s='إلى أخصائي، دون استهلاك نموذج'; AR.n2s='أنشئوا ملفكم الطبي واستعدوا لتلقي الرعاية';
   AR.scan='امسحوا الرمز لتحميل التطبيق'; AR.keys='استخدموا الأسهم أو اضغطوا على البطاقة';
+  AR.swipe='اسحبوا أو اضغطوا للمتابعة';
   AR.next='التالي'; AR.back='السابق'; AR.start='ابدأ'; AR.again='من البداية';
   var EN={title:document.title, copied:'Number copied', meter:'{n} of 3 done', meterDone:'All three steps done',
           contents:'Contents', close:'Close', copyNum:'Copy number', openMap:'Open the map', callClinic:'Call the clinic',
