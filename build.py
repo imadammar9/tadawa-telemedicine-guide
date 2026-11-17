@@ -25,7 +25,9 @@ rep = {
     "SHOT_EN": b64(os.path.join(here, "src", "img", "app-home-en.jpg"), "image/jpeg"),
     "SHOT_AR": b64(os.path.join(here, "src", "img", "app-home-ar.jpg"), "image/jpeg"),
 }
-out = re.sub(r"\{\{([A-Z_]+)\}\}", lambda m: rep[m.group(1)], src)
+MIME = {".webp": "image/webp", ".png": "image/png", ".jpg": "image/jpeg", ".svg": "image/svg+xml"}
+out = re.sub(r"\{\{IMG:([\w.-]+)\}\}", lambda m: b64(os.path.join(here, "src", "img", m.group(1)), MIME[os.path.splitext(m.group(1))[1]]), src)
+out = re.sub(r"\{\{([A-Z_]+)\}\}", lambda m: rep[m.group(1)], out)
 head, body = out.split("<!--BODY-->")
 os.makedirs(os.path.join(here, "dist"), exist_ok=True)
 open(os.path.join(here, "dist", "TadawaTelemedicineGuide.html"), "w", encoding="utf-8").write(head + body)
