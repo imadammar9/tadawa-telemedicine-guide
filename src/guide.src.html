@@ -1,0 +1,827 @@
+<title>TADAWA Telemedicine Guide</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Readex+Pro:wght@300;400;500;600;700&display=swap">
+<style>
+/* Layout: one long mobile-first guide. White ground, teal gradient bands for the cover, the promise and the benefits;
+   sticky header with language switch, contents sheet, and a bottom action dock on phones. Tadawa identity is light only. */
+:root{
+  color-scheme:light;
+  --ink:#231f20; --ink-800:#3a3536; --ink-600:#5b5658; --ink-400:#8b8789;
+  --teal:#0e8098; --teal-deep:#115e6d; --teal-800:#0e4a56;
+  --teal-50:#eef6f8; --teal-100:#dcedf1; --teal-200:#b4dae3; --teal-300:#7fbfcd;
+  --mist-100:#f2f3f6; --mist-200:#e6e8ee; --mist-400:#d0d4dd; --mist-500:#b3b8c4;
+  --white:#ffffff;
+  --on-brand-muted:rgba(255,255,255,.78); --border-on-brand:rgba(255,255,255,.28);
+  --success:#2f8a5e; --success-bg:#e5f3ec;
+  --gradient:linear-gradient(135deg,#0e8098 0%,#115e6d 100%);
+  --shadow-1:0 1px 2px rgba(35,31,32,.06),0 1px 3px rgba(17,94,109,.06);
+  --shadow-2:0 2px 6px rgba(35,31,32,.06),0 8px 24px rgba(17,94,109,.08);
+  --shadow-3:0 8px 20px rgba(35,31,32,.08),0 24px 48px rgba(17,94,109,.14);
+  --focus:0 0 0 3px rgba(14,128,152,.28);
+  --r-sm:8px; --r-md:14px; --r-lg:24px; --r-xl:32px; --r-pill:999px;
+  --ease:cubic-bezier(.2,0,0,1); --fast:120ms; --base:200ms; --slow:320ms;
+  --font-lat:"Readex Pro","Madani Arabic","Segoe UI",system-ui,sans-serif;
+  --font-ar:"Madani Arabic","Alexandria","Noto Sans Arabic","Segoe UI",sans-serif;
+  --font:var(--font-lat);
+  --track:.03em; --track-caps:.08em; --lh:1.5; --lh-head:1.15;
+  --head-h:64px;
+}
+:root[lang="ar"]{ --font:var(--font-ar); --track:0; --track-caps:0; --lh:1.9; --lh-head:1.45; }
+@media (prefers-reduced-motion:reduce){ :root{ --fast:0ms; --base:0ms; --slow:0ms; } }
+
+@font-face{font-family:"Madani Arabic";src:url({{FONT_MADANI_REG}}) format("truetype");font-weight:300 500;font-style:normal;font-display:swap}
+@font-face{font-family:"Madani Arabic";src:url({{FONT_MADANI_BOLD}}) format("truetype");font-weight:600 900;font-style:normal;font-display:swap}
+{{PHOSPHOR_FACES}}
+.ph,.ph-fill{speak:never;font-style:normal;font-weight:normal;font-variant:normal;text-transform:none;line-height:1;letter-spacing:0;display:inline-block;
+  font-feature-settings:"liga";-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}
+.ph{font-family:"Phosphor"!important}
+.ph-fill{font-family:"Phosphor-Fill"!important}
+{{ICON_RULES}}
+
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+@media (prefers-reduced-motion:reduce){ html{scroll-behavior:auto} }
+body{margin:0;background:var(--white);color:var(--ink);font:400 16px/var(--lh) var(--font);letter-spacing:var(--track);-webkit-font-smoothing:antialiased;overflow-x:hidden}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:60;background:var(--white)}
+h1,h2,h3,h4,p,ul,ol,figure{margin:0}
+ul,ol{padding:0;list-style:none}
+h1,h2,h3{text-wrap:balance;line-height:var(--lh-head);font-weight:700}
+h1{font-size:clamp(34px,6.2vw,56px);letter-spacing:0}
+h2{font-size:clamp(27px,4.2vw,40px);letter-spacing:0}
+h3{font-size:20px;line-height:1.3}
+:root[lang="ar"] h3{line-height:1.6}
+p{text-wrap:pretty}
+a{color:inherit}
+button{font:inherit;letter-spacing:inherit;color:inherit;background:none;border:0;padding:0;cursor:pointer}
+img{display:block}
+:focus-visible{outline:none;box-shadow:var(--focus)}
+.lat{font-family:var(--font-lat);font-variant-numeric:tabular-nums}
+.num{font-family:var(--font-lat);font-variant-numeric:tabular-nums;direction:ltr;unicode-bidi:isolate;display:inline-block}
+[dir="rtl"] .flip{transform:scaleX(-1)}
+
+.wrap{max-width:1120px;margin-inline:auto;padding-left:max(20px,env(safe-area-inset-left,0px));padding-right:max(20px,env(safe-area-inset-right,0px))}
+.sec{padding-block:56px;scroll-margin-top:calc(var(--head-h) + env(safe-area-inset-top,0px))}
+@media (min-width:900px){ .sec{padding-block:88px} }
+.eyebrow{display:inline-flex;align-items:center;gap:8px;font-size:13px;font-weight:700;color:var(--teal);text-transform:uppercase;letter-spacing:var(--track-caps);line-height:1.4}
+:root[lang="ar"] .eyebrow{font-size:15px}
+.sec-head{display:grid;gap:12px;max-width:640px;margin-bottom:32px}
+.sec-head em,.hero h1 em{font-style:normal;color:var(--teal)}
+.lead{font-size:18px;color:var(--ink-600)}
+.muted{color:var(--ink-600)}
+
+/* Buttons: pill, 44px, verb first */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:44px;padding:8px 22px;border-radius:var(--r-pill);font-weight:500;font-size:15px;line-height:1.2;text-decoration:none;
+  border:1.5px solid transparent;transition:background var(--fast) var(--ease),border-color var(--fast) var(--ease),color var(--fast) var(--ease)}
+.btn i{font-size:18px}
+.btn-primary{background:var(--teal);color:var(--white)}
+.btn-primary:hover{background:var(--teal-deep)} .btn-primary:active{background:var(--teal-800)}
+.btn-secondary{border-color:var(--teal);color:var(--teal);background:var(--white)}
+.btn-secondary:hover{background:var(--teal-50)} .btn-secondary:active{background:var(--teal-100)}
+.btn-ghost{color:var(--teal)}
+.btn-ghost:hover{background:var(--teal-50)} .btn-ghost:active{background:var(--teal-100)}
+.btn-inverse{background:var(--white);color:var(--teal-deep)}
+.btn-inverse:hover{background:var(--teal-50)} .btn-inverse:active{background:var(--teal-100)}
+.btn-lg{min-height:52px;padding-inline:28px;font-size:16px}
+.icon-btn{display:inline-grid;place-items:center;width:44px;height:44px;border-radius:var(--r-pill);color:var(--teal);font-size:22px;transition:background var(--fast) var(--ease)}
+.icon-btn:hover{background:var(--teal-50)} .icon-btn:active{background:var(--teal-100)}
+
+.card{background:var(--white);border:1px solid var(--mist-200);border-radius:var(--r-lg);box-shadow:var(--shadow-1)}
+.icbox{display:grid;place-items:center;flex:none;width:48px;height:48px;border-radius:var(--r-md);background:var(--teal-50);color:var(--teal);font-size:24px}
+.badge{display:inline-flex;align-items:center;gap:6px;padding:5px 12px;border-radius:var(--r-pill);font-size:13px;font-weight:500;line-height:1.3;background:var(--teal-50);color:var(--teal-deep)}
+.badge i{font-size:15px}
+
+/* Header */
+.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:50;background:var(--white);border-bottom:1px solid var(--mist-200)}
+.top .wrap{display:flex;align-items:center;gap:12px;height:var(--head-h)}
+.top .logo{height:36px;width:auto}
+.top .sp{flex:1}
+.top .call{display:none}
+@media (min-width:900px){ .top .call{display:inline-flex} }
+.lang{display:inline-flex;padding:3px;border-radius:var(--r-pill);background:var(--mist-100);border:1px solid var(--mist-200)}
+.lang button{min-width:52px;height:36px;padding:0 14px;border-radius:var(--r-pill);font-size:14px;font-weight:500;color:var(--ink-600);letter-spacing:0;transition:background var(--base) var(--ease),color var(--base) var(--ease)}
+.lang button[lang="ar"]{font-family:var(--font-ar)} .lang button[lang="en"]{font-family:var(--font-lat)}
+.lang button[aria-pressed="true"]{background:var(--teal);color:var(--white)}
+.progress{position:absolute;inset-inline-start:0;bottom:-1px;height:2px;width:0;background:var(--teal)}
+
+/* Hero */
+.band{background:var(--gradient);color:var(--white);position:relative;overflow:hidden}
+.hero .wrap{padding-block:44px 28px;display:grid;gap:36px}
+@media (min-width:900px){ .hero .wrap{grid-template-columns:minmax(0,1.05fr) minmax(0,.95fr);gap:56px;padding-block:80px 40px;align-items:center} }
+.hero-copy{display:grid;gap:18px;justify-items:start;min-width:0}
+.hero .tagchip{display:inline-flex;align-items:center;gap:8px;padding:6px 14px;border-radius:var(--r-pill);border:1px solid var(--border-on-brand);font-size:13px;font-weight:500;text-transform:uppercase;letter-spacing:var(--track-caps)}
+:root[lang="ar"] .hero .tagchip{font-size:14px}
+.hero .co{font-size:15px;font-weight:500;color:var(--on-brand-muted)}
+.hero h1 em{color:var(--white)}
+.hero .lead{color:var(--on-brand-muted);max-width:34em}
+.chips{display:flex;flex-wrap:wrap;gap:10px}
+.chip{display:inline-flex;align-items:center;gap:8px;min-height:44px;padding:8px 16px;border-radius:var(--r-pill);font-size:15px;font-weight:500;line-height:1.2;transition:background var(--fast) var(--ease),border-color var(--fast) var(--ease)}
+.chip i{font-size:18px}
+.band .chip{border:1.5px solid var(--border-on-brand);color:var(--white)}
+.band .chip:hover{background:rgba(255,255,255,.14);border-color:var(--white)}
+.chip-light{border:1.5px solid var(--mist-400);color:var(--ink);background:var(--white)}
+.chip-light i{color:var(--teal)}
+@media (max-width:480px){ .step .chips{gap:8px} .step .chip{padding-inline:12px;font-size:14px} }
+.chip-light:hover{border-color:var(--teal);background:var(--teal-50)}
+
+.guide-card{color:var(--ink);padding:24px;border-radius:var(--r-xl);border:0;box-shadow:var(--shadow-3);display:grid;gap:18px;min-width:0}
+.guide-card h2{font-size:24px}
+.quick{display:none;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+@media (min-width:900px){ .quick{display:grid} }
+.quick a{display:grid;justify-items:center;gap:8px;padding:14px 8px;border-radius:var(--r-md);background:var(--teal-50);color:var(--teal-deep);text-decoration:none;font-size:14px;font-weight:500;text-align:center;line-height:1.3;transition:background var(--fast) var(--ease)}
+.quick a:hover{background:var(--teal-100)}
+.quick i{font-size:24px;color:var(--teal)}
+.toc{display:grid}
+.toc button{display:flex;align-items:center;gap:14px;width:100%;padding:12px 8px;border-radius:var(--r-md);text-align:start;font-weight:500;line-height:1.35;transition:background var(--fast) var(--ease)}
+.toc li+li button{border-top:1px solid var(--mist-200);border-start-start-radius:0;border-start-end-radius:0}
+.toc button:hover{background:var(--teal-50)}
+.toc .n{color:var(--teal);font-weight:700;font-size:14px;min-width:24px}
+.toc .t{flex:1;min-width:0}
+.toc .c{color:var(--mist-500);font-size:16px}
+.toc button[aria-current="true"]{color:var(--teal)}
+.toc button[aria-current="true"] .c{color:var(--teal)}
+.hint{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--ink-600)}
+.hint i{color:var(--teal);font-size:16px}
+
+/* Pulse: official Tadawa geometry, drawn by script. Peak first, dip after, never mirrored. */
+.hb{display:block;position:relative;width:100%;overflow:hidden;direction:ltr;pointer-events:none}
+.hb svg{display:block;position:absolute;left:0;top:0;fill:none;stroke-linecap:round;stroke-linejoin:round}
+
+/* Welcome */
+.welcome{display:grid;gap:24px}
+@media (min-width:900px){ .welcome{grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:32px;align-items:start} }
+.note{background:var(--gradient);color:var(--white);border-radius:var(--r-lg);padding:28px;display:grid;gap:14px}
+.note .k{font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:var(--track-caps);color:var(--on-brand-muted)}
+:root[lang="ar"] .note .k{font-size:15px}
+.note p{font-size:18px}
+.feats{display:grid;gap:12px}
+@media (min-width:600px){ .feats{grid-template-columns:repeat(2,minmax(0,1fr))} }
+.feat{display:flex;gap:14px;padding:18px;align-items:flex-start}
+.feat h3{font-size:16px;line-height:1.4}
+.feat p{font-size:14px;color:var(--ink-600);margin-top:2px}
+
+/* What is */
+.what{display:grid;gap:36px;align-items:center}
+@media (min-width:900px){ .what{grid-template-columns:minmax(0,1fr) auto;gap:72px} .what .sec-head{margin-bottom:0} }
+.phone-fig{display:grid;justify-items:center;gap:14px}
+.phone{position:relative;width:min(272px,70vw);aspect-ratio:1179/2556;border-radius:40px;border:7px solid var(--ink);background:var(--ink);overflow:hidden;box-shadow:var(--shadow-3)}
+.phone img{width:100%;height:100%;object-fit:cover}
+.spot{position:absolute;top:21.2%;height:13.4%;width:28.8%;border-radius:16px;border:2px solid transparent;transition:border-color var(--fast) var(--ease),background var(--fast) var(--ease)}
+.spot::after{content:"";position:absolute;inset-inline-end:6px;top:6px;width:10px;height:10px;border-radius:50%;background:var(--teal);box-shadow:0 0 0 4px rgba(14,128,152,.22)}
+.spot:hover,.spot:focus-visible{border-color:var(--teal);background:rgba(14,128,152,.08)}
+.spot[data-pos="1"]{left:4.2%} .spot[data-pos="2"]{left:35.6%} .spot[data-pos="3"]{left:67%}
+.phone-fig figcaption{font-size:14px;color:var(--ink-600);text-align:center;max-width:300px}
+.phone-fig figcaption b{display:block;color:var(--ink);font-weight:500}
+
+/* Steps */
+.start{display:grid;gap:24px}
+@media (min-width:900px){ .start{grid-template-columns:minmax(0,1.15fr) minmax(0,.85fr);gap:32px;align-items:start} }
+.steps{display:grid;gap:0}
+.step{display:grid;grid-template-columns:44px minmax(0,1fr);gap:16px;position:relative;padding-bottom:28px}
+.step:last-child{padding-bottom:0}
+.step::before{content:"";position:absolute;inset-inline-start:21px;top:44px;bottom:0;width:2px;background:var(--teal-100)}
+.step:last-child::before{display:none}
+.step .sn{display:grid;place-items:center;width:44px;height:44px;border-radius:50%;background:var(--teal);color:var(--white);font:700 18px/1 var(--font-lat)}
+.step .sb{display:grid;gap:8px;justify-items:start;padding-top:8px;min-width:0}
+.step p{color:var(--ink-600)}
+.step .btn,.step .chips{margin-top:6px}
+.ins{padding:24px;display:grid;gap:16px}
+.ins-head{display:flex;gap:14px;align-items:center}
+.ins-head p{font-size:14px;color:var(--ink-600)}
+.checks{display:grid;gap:8px}
+.check{display:flex;align-items:center;gap:12px;padding:12px 14px;border-radius:var(--r-md);border:1.5px solid var(--mist-400);cursor:pointer;transition:border-color var(--fast) var(--ease),background var(--fast) var(--ease)}
+.check:hover{border-color:var(--mist-500)}
+.check input{position:absolute;opacity:0;width:1px;height:1px}
+.check .box{display:grid;place-items:center;flex:none;width:26px;height:26px;border-radius:50%;border:1.5px solid var(--mist-400);font:700 13px/1 var(--font-lat);color:var(--teal);transition:background var(--fast) var(--ease),border-color var(--fast) var(--ease)}
+.check .box i{display:none;font-size:15px;color:var(--white)}
+.check .lbl{flex:1;font-weight:500;min-width:0}
+.check .ic{color:var(--teal);font-size:20px}
+.check:has(input:checked){border-color:var(--teal);background:var(--teal-50)}
+.check:has(input:checked) .box{background:var(--teal);border-color:var(--teal)}
+.check:has(input:checked) .box span{display:none}
+.check:has(input:checked) .box i{display:block}
+.check:has(input:focus-visible){box-shadow:var(--focus)}
+.ins-foot{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;font-size:14px;color:var(--ink-600)}
+.meter{flex:none;display:inline-flex;align-items:center;gap:6px;font-weight:500;color:var(--teal-deep)}
+.meter.done{color:var(--success)}
+
+/* Why */
+.reasons{display:grid;gap:12px;grid-template-columns:repeat(2,minmax(0,1fr))}
+@media (min-width:900px){ .reasons{grid-template-columns:repeat(4,minmax(0,1fr));gap:16px} }
+.reason{padding:20px;display:grid;gap:10px;align-content:start;transition:transform var(--base) var(--ease),box-shadow var(--base) var(--ease)}
+.reason:hover{transform:translateY(-2px);box-shadow:var(--shadow-3)}
+.reason .rt{display:flex;align-items:center;justify-content:space-between}
+.reason .rn{font:700 14px/1 var(--font-lat);color:var(--teal-300)}
+.reason h3{font-size:17px}
+.reason p{font-size:14px;color:var(--ink-600)}
+.promise .wrap{padding-block:56px 12px}
+.promise p{font-size:clamp(24px,4.4vw,40px);font-weight:700;line-height:var(--lh-head);letter-spacing:0;max-width:18em;text-wrap:balance}
+
+/* Services */
+.tabs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px;padding:6px;border-radius:var(--r-lg);background:var(--mist-100);border:1px solid var(--mist-200)}
+.tab{display:grid;justify-items:center;gap:6px;padding:12px 6px;border-radius:18px;text-align:center;font-size:14px;font-weight:500;line-height:1.3;color:var(--ink-600);transition:background var(--base) var(--ease),color var(--base) var(--ease)}
+.tab i{font-size:24px;color:var(--teal)}
+.tab:hover{background:var(--white)}
+.tab[aria-selected="true"]{background:var(--teal);color:var(--white);box-shadow:var(--shadow-1)}
+.tab[aria-selected="true"] i{color:var(--white)}
+@media (min-width:600px){ .tab{grid-auto-flow:column;justify-content:center;align-items:center;gap:10px;font-size:16px;padding:14px} }
+.panel{margin-top:16px;padding:28px 24px;display:grid;gap:14px;justify-items:start}
+@media (min-width:900px){ .panel{padding:36px;grid-template-columns:auto minmax(0,1fr);column-gap:28px;align-items:start} .panel .icbox{grid-row:1 / span 4} }
+.panel .icbox{width:64px;height:64px;font-size:32px;border-radius:20px}
+.panel h3{font-size:24px}
+.panel .en{display:none;font:500 14px/1.4 var(--font-lat);color:var(--ink-400);letter-spacing:.03em}
+:root[lang="ar"] .panel .en{display:block}
+.panel p{font-size:18px;color:var(--ink-600);max-width:38em}
+.after{margin-top:16px;display:flex;gap:14px;align-items:flex-start;padding:18px 20px;border-radius:var(--r-lg);background:var(--teal-50);color:var(--teal-deep);scroll-margin-top:calc(var(--head-h) + 24px)}
+.after i{font-size:24px;color:var(--teal);flex:none;margin-top:2px}
+.after p{font-weight:500}
+
+/* Benefits */
+.benefits .wrap{padding-block:56px}
+@media (min-width:900px){ .benefits .wrap{padding-block:88px} }
+.benefits .eyebrow{color:var(--teal-200)}
+.benefits .sec-head em{color:var(--white)}
+.bens{display:grid;gap:16px}
+@media (min-width:760px){ .bens{grid-template-columns:repeat(2,minmax(0,1fr))} }
+.ben{color:var(--ink);padding:28px;border:0;display:grid;gap:10px;align-content:start;justify-items:start}
+.ben .big{font:700 clamp(56px,10vw,76px)/1 var(--font-lat);color:var(--teal);letter-spacing:-.01em}
+:root[lang="ar"] .ben .big.w{font-family:var(--font-ar);line-height:1.4}
+.ben h3{font-size:20px}
+.ben p{color:var(--ink-600)}
+.ben .badge{margin-top:6px}
+
+/* Next step */
+.next{display:grid;gap:16px}
+@media (min-width:900px){ .next{grid-template-columns:repeat(2,minmax(0,1fr))} }
+.video{position:relative;overflow:hidden;background:var(--gradient);color:var(--white);border-radius:var(--r-lg);padding:28px;display:grid;gap:12px;justify-items:start;align-content:start;text-decoration:none;min-height:240px;transition:box-shadow var(--base) var(--ease),transform var(--base) var(--ease)}
+.video:hover{transform:translateY(-2px);box-shadow:var(--shadow-3)}
+.video .playb{display:grid;place-items:center;width:64px;height:64px;border-radius:50%;background:var(--white);color:var(--teal);font-size:28px;margin-bottom:8px}
+.video p{color:var(--on-brand-muted)}
+.video .go{display:inline-flex;align-items:center;gap:8px;font-weight:500;margin-top:6px}
+.dl{padding:28px;display:grid;gap:12px;justify-items:start;align-content:start}
+.dl p{color:var(--ink-600)}
+.dl .btn{margin-top:8px}
+.faq{grid-column:1 / -1;display:flex;align-items:center;gap:14px;padding:18px 20px;text-decoration:none;transition:border-color var(--fast) var(--ease),background var(--fast) var(--ease)}
+.faq:hover{border-color:var(--teal);background:var(--teal-50)}
+.faq .tx{flex:1;min-width:0}
+.faq .tx b{display:block;font-weight:700}
+.faq .tx span{font-size:14px;color:var(--ink-600)}
+.faq>i:last-child{color:var(--teal);font-size:20px}
+
+/* Clinics */
+.clinics{display:grid;gap:16px}
+@media (min-width:760px){ .clinics{grid-template-columns:repeat(3,minmax(0,1fr))} }
+.clinic{padding:22px;display:grid;gap:14px;align-content:start}
+.clinic .ch{display:flex;gap:14px;align-items:flex-start}
+.clinic h3{font-size:17px}
+.clinic .city{font-size:14px;color:var(--ink-600)}
+.telrow{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:6px 6px 6px 16px;border-radius:var(--r-md);background:var(--mist-100)}
+[dir="rtl"] .telrow{padding:6px 16px 6px 6px}
+.telrow .num{font-weight:500;font-size:17px;letter-spacing:.04em;user-select:all}
+.telrow .icon-btn{width:40px;height:40px;font-size:20px}
+.clinic .acts{display:flex;flex-wrap:wrap;gap:8px}
+.clinic .acts .btn{flex:1 1 auto;padding-inline:14px;font-size:14px}
+
+/* Footer */
+.foot .wrap{padding-block:56px 8px;display:grid;gap:28px}
+@media (min-width:900px){ .foot .wrap{grid-template-columns:minmax(0,1fr) auto;align-items:center;padding-block:72px 8px} }
+.foot .logo{height:64px;width:auto}
+.foot .contact{display:grid;gap:10px;justify-items:start}
+.foot .who{font-size:15px;color:var(--on-brand-muted)}
+.foot .big{font:700 clamp(34px,7vw,48px)/1.1 var(--font-lat);letter-spacing:.02em;user-select:all}
+.foot .row{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-top:6px}
+.foot .btn-onbrand{border-color:var(--border-on-brand);color:var(--white)}
+.foot .btn-onbrand:hover{background:rgba(255,255,255,.14);border-color:var(--white)}
+.foot .url{font:400 14px/1.5 var(--font-lat);letter-spacing:.32em;color:var(--white);text-decoration:none;direction:ltr;margin-top:10px}
+.foot .url:hover{text-decoration:underline}
+.foot .hb{margin-top:8px}
+
+/* Dock (phones) */
+.dock{position:fixed;inset:auto 0 0 0;z-index:40;background:var(--white);border-top:1px solid var(--mist-200);display:grid;grid-template-columns:repeat(3,minmax(0,1fr));
+  padding:6px max(10px,env(safe-area-inset-right,0px)) calc(6px + env(safe-area-inset-bottom,0px)) max(10px,env(safe-area-inset-left,0px))}
+.dock a{display:grid;justify-items:center;gap:3px;padding:7px 4px;border-radius:var(--r-md);text-decoration:none;font-size:12px;font-weight:500;line-height:1.3;color:var(--ink);text-align:center}
+:root[lang="ar"] .dock a{font-size:13px}
+.dock a i{font-size:22px;color:var(--teal)}
+.dock a:active{background:var(--teal-50)}
+.dock-space{height:72px}
+@media (min-width:900px){ .dock,.dock-space{display:none} }
+
+/* Contents sheet */
+dialog.sheet{border:0;padding:0;margin:0;background:var(--white);color:var(--ink);width:min(420px,100vw);max-width:100vw;height:100%;max-height:100%;inset-block:0;inset-inline:auto 0;position:fixed;
+  border-start-start-radius:var(--r-xl);border-end-start-radius:var(--r-xl);box-shadow:var(--shadow-3)}
+dialog.sheet::backdrop{background:rgba(35,31,32,.42)}
+dialog.sheet[open]{animation:sheet var(--slow) var(--ease)}
+@keyframes sheet{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.sheet-in{display:grid;gap:14px;align-content:start;height:100%;overflow:auto;padding:calc(18px + env(safe-area-inset-top,0px)) 20px calc(24px + env(safe-area-inset-bottom,0px))}
+.sheet-top{display:flex;align-items:center;justify-content:space-between}
+.sheet-top h2{font-size:22px}
+
+.toast{position:fixed;left:50%;bottom:calc(92px + env(safe-area-inset-bottom,0px));transform:translate(-50%,8px);z-index:70;background:var(--ink-800);color:var(--white);padding:10px 18px;border-radius:var(--r-md);font-size:14px;font-weight:500;
+  opacity:0;pointer-events:none;transition:opacity var(--base) var(--ease),transform var(--base) var(--ease);display:inline-flex;gap:8px;align-items:center;max-width:calc(100vw - 32px)}
+.toast.on{opacity:1;transform:translate(-50%,0)}
+@media (min-width:900px){ .toast{bottom:32px} }
+
+.rv{transition:opacity var(--slow) var(--ease),transform var(--slow) var(--ease)}
+.rv-wait{opacity:0;transform:translateY(8px)}
+</style>
+<!--BODY-->
+<header class="top">
+  <div class="wrap">
+    <img class="logo" src="{{LOGO_COLOR}}" alt="TADAWA تداوىٰ" width="74" height="36">
+    <span class="sp"></span>
+    <a class="btn btn-primary call" href="tel:+962793226000"><i class="ph-fill ph-phone"></i><span data-t="callNow">Call us now</span></a>
+    <div class="lang" role="group" aria-label="Language / اللغة">
+      <button type="button" lang="en" data-lang="en" aria-pressed="true">EN</button>
+      <button type="button" lang="ar" data-lang="ar" aria-pressed="false">عربي</button>
+    </div>
+    <button type="button" class="icon-btn" id="openToc" aria-label="Contents" data-t-aria="contents"><i class="ph ph-list"></i></button>
+    <span class="progress" id="progress"></span>
+  </div>
+</header>
+
+<main>
+<section class="band hero" id="top">
+  <div class="wrap">
+    <div class="hero-copy">
+      <span class="tagchip" data-t="heroTag">Telemedicine guide</span>
+      <span class="co" data-t="heroCo">TADAWA Healthcare</span>
+      <h1 data-t="heroH1">Your personal doctor, wherever you are</h1>
+      <p class="lead" data-t="heroLead">A simple guide to using TADAWA telemedicine services, from your first consultation to follow-up and referral when you need it.</p>
+      <div class="chips">
+        <button type="button" class="chip" data-svc="now"><i class="ph-fill ph-phone"></i><span data-t="svcNow">Treat Me Now</span></button>
+        <button type="button" class="chip" data-svc="remote"><i class="ph-fill ph-video-camera"></i><span data-t="svcRemote">Remote visit</span></button>
+        <button type="button" class="chip" data-svc="clinic"><i class="ph-fill ph-hospital"></i><span data-t="svcClinic">Clinic visit</span></button>
+      </div>
+    </div>
+    <div class="card guide-card">
+      <div>
+        <span class="eyebrow" data-t="tocEyebrow">In this guide</span>
+        <h2 data-t="tocH">Everything you need, right here</h2>
+      </div>
+      <div class="quick">
+        <a href="tel:+962793226000"><i class="ph-fill ph-phone"></i><span data-t="callNow">Call us now</span></a>
+        <a href="https://qrfy.io/p/BxlzX9Y87q" target="_blank" rel="noopener"><i class="ph-fill ph-download-simple"></i><span data-t="getApp">Get the app</span></a>
+        <a href="https://www.youtube.com/watch?v=W5jCTL_hdlc" target="_blank" rel="noopener"><i class="ph-fill ph-play"></i><span data-t="watchVideo">Watch the video</span></a>
+      </div>
+      <ol class="toc" id="toc">
+        <li><button type="button" data-go="welcome"><span class="n lat">01</span><span class="t" data-t="toc1">Welcome to TADAWA</span><i class="ph ph-caret-right c flip"></i></button></li>
+        <li><button type="button" data-go="what"><span class="n lat">02</span><span class="t" data-t="toc2">What is the TADAWA system?</span><i class="ph ph-caret-right c flip"></i></button></li>
+        <li><button type="button" data-go="start"><span class="n lat">03</span><span class="t" data-t="toc3">Getting started and insurance</span><i class="ph ph-caret-right c flip"></i></button></li>
+        <li><button type="button" data-go="why"><span class="n lat">04</span><span class="t" data-t="toc4">Why TADAWA?</span><i class="ph ph-caret-right c flip"></i></button></li>
+        <li><button type="button" data-go="services"><span class="n lat">05</span><span class="t" data-t="toc5">Family doctor services</span><i class="ph ph-caret-right c flip"></i></button></li>
+        <li><button type="button" data-go="benefits"><span class="n lat">06</span><span class="t" data-t="toc6">Extra benefits with TADAWA</span><i class="ph ph-caret-right c flip"></i></button></li>
+        <li><button type="button" data-go="next"><span class="n lat">07</span><span class="t" data-t="toc7">Start your health journey</span><i class="ph ph-caret-right c flip"></i></button></li>
+        <li><button type="button" data-go="clinics"><span class="n lat">08</span><span class="t" data-t="toc8">Clinic locations and contact</span><i class="ph ph-caret-right c flip"></i></button></li>
+      </ol>
+      <p class="hint"><i class="ph-fill ph-hand-tap"></i><span data-t="tocHint">Tap any title to jump straight to it</span></p>
+    </div>
+  </div>
+  <div class="hb" data-peak=".7" data-peak-rtl=".3" data-s=".42" data-s-lg=".62" data-tone="white"></div>
+</section>
+
+<section class="sec" id="welcome">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <span class="eyebrow" data-t="wEyebrow">Welcome</span>
+      <h2 data-t="wH">Welcome to <em>TADAWA</em></h2>
+    </div>
+    <div class="welcome">
+      <div class="note rv">
+        <span class="k" data-t="wNoteK">A note from us</span>
+        <p data-t="wNote">We are happy to have you with us, and we welcome you to the TADAWA primary healthcare system. You are part of the family now, so your health and wellbeing come first. We are here to give you care that is complete, comfortable and trusted.</p>
+      </div>
+      <ul class="feats">
+        <li class="card feat rv"><span class="icbox"><i class="ph-fill ph-stethoscope"></i></span><div><h3 data-t="f1h">Care led by specialist doctors</h3><p data-t="f1p">Family medicine specialists with you at every step</p></div></li>
+        <li class="card feat rv"><span class="icbox"><i class="ph-fill ph-path"></i></span><div><h3 data-t="f2h">An organized, complete care journey</h3><p data-t="f2p">From consultation to follow-up and referral</p></div></li>
+        <li class="card feat rv"><span class="icbox"><i class="ph-fill ph-lightning"></i></span><div><h3 data-t="f3h">Faster consultations, no long waits</h3><p data-t="f3p">Talk to a doctor at the tap of a button</p></div></li>
+        <li class="card feat rv"><span class="icbox"><i class="ph-fill ph-device-mobile"></i></span><div><h3 data-t="f4h">An easy digital service</h3><p data-t="f4p">Everything in one app</p></div></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="sec" id="what">
+  <div class="wrap what">
+    <div class="sec-head rv">
+      <span class="eyebrow" data-t="qEyebrow">Get to know us</span>
+      <h2 data-t="qH">What is the <em>TADAWA</em> system?</h2>
+      <p class="lead" data-t="qLead">A modern primary healthcare platform built on telemedicine. It brings you fast, high-quality medical consultations wherever you are, and saves you the time and the wait of a traditional clinic.</p>
+    </div>
+    <figure class="phone-fig rv">
+      <div class="phone">
+        <img id="shot" src="{{SHOT_EN}}" data-en="{{SHOT_EN}}" data-ar="{{SHOT_AR}}" alt="The TADAWA app home screen" data-t-alt="shotCap" width="640" height="1387">
+        <button type="button" class="spot" data-pos="1" data-svc="now" aria-label="Treat Me Now"></button>
+        <button type="button" class="spot" data-pos="2" data-svc="clinic" aria-label="Clinic visit"></button>
+        <button type="button" class="spot" data-pos="3" data-svc="remote" aria-label="Remote visit"></button>
+      </div>
+      <figcaption><b data-t="shotCap">The TADAWA app home screen</b><span data-t="shotHint">Tap a service on the screen to see how it works</span></figcaption>
+    </figure>
+  </div>
+</section>
+
+<section class="sec" id="start">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <span class="eyebrow" data-t="sEyebrow">Step by step</span>
+      <h2 data-t="sH">How do you <em>get started?</em></h2>
+    </div>
+    <div class="start">
+      <ol class="steps">
+        <li class="step rv"><span class="sn">1</span><div class="sb"><h3 data-t="s1h">Account activation</h3><p data-t="s1p">Your employer activates the employee accounts.</p></div></li>
+        <li class="step rv"><span class="sn">2</span><div class="sb"><h3 data-t="s2h">Download the app and create your medical file</h3><p data-t="s2p">Download the TADAWA app and set up your medical file.</p>
+          <a class="btn btn-primary" href="https://qrfy.io/p/BxlzX9Y87q" target="_blank" rel="noopener"><i class="ph-fill ph-download-simple"></i><span data-t="dlApp">Download the app</span></a></div></li>
+        <li class="step rv"><span class="sn">3</span><div class="sb"><h3 data-t="s3h">Use the service that fits your case</h3>
+          <div class="chips">
+            <button type="button" class="chip chip-light" data-svc="now"><i class="ph-fill ph-phone"></i><span data-t="svcNow">Treat Me Now</span></button>
+            <button type="button" class="chip chip-light" data-svc="remote"><i class="ph-fill ph-video-camera"></i><span data-t="svcRemote">Remote visit</span></button>
+            <button type="button" class="chip chip-light" data-svc="clinic"><i class="ph-fill ph-hospital"></i><span data-t="svcClinic">Clinic visit</span></button>
+            <button type="button" class="chip chip-light" data-go="after"><i class="ph-fill ph-arrow-bend-up-right flip"></i><span data-t="svcFollow">Follow-up and referral</span></button>
+          </div></div></li>
+      </ol>
+      <div class="card ins rv">
+        <div class="ins-head">
+          <span class="icbox"><i class="ph-fill ph-shield-check"></i></span>
+          <div><h3 data-t="iH">Add your insurance information</h3><p data-t="iSub">Three steps inside the app</p></div>
+        </div>
+        <div class="checks">
+          <label class="check"><input type="checkbox" id="ins-1"><span class="box"><span>1</span><i class="ph ph-check"></i></span><span class="lbl" data-t="i1">Open My Health</span><i class="ph-fill ph-identification-card ic"></i></label>
+          <label class="check"><input type="checkbox" id="ins-2"><span class="box"><span>2</span><i class="ph ph-check"></i></span><span class="lbl" data-t="i2">Tap Settings</span><i class="ph-fill ph-gear ic"></i></label>
+          <label class="check"><input type="checkbox" id="ins-3"><span class="box"><span>3</span><i class="ph ph-check"></i></span><span class="lbl" data-t="i3">Choose Insurance information</span><i class="ph-fill ph-shield-check ic"></i></label>
+        </div>
+        <div class="ins-foot">
+          <span data-t="iNote">Add your insurance details to activate every service in the TADAWA app.</span>
+          <span class="meter" id="meter" aria-live="polite"></span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="sec" id="why">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <span class="eyebrow" data-t="yEyebrow">Why TADAWA?</span>
+      <h2 data-t="yH">Why TADAWA is <em>your best choice</em></h2>
+      <p class="lead" data-t="yLead">Four reasons that make your care easier and closer.</p>
+    </div>
+    <ul class="reasons">
+      <li class="card reason rv"><div class="rt"><span class="icbox"><i class="ph-fill ph-medal"></i></span><span class="rn">01</span></div><h3 data-t="y1h">Top doctors</h3><p data-t="y1p">Care from family medicine specialists</p></li>
+      <li class="card reason rv"><div class="rt"><span class="icbox"><i class="ph-fill ph-clock"></i></span><span class="rn">02</span></div><h3 data-t="y2h">Time saved</h3><p data-t="y2p">Goodbye to long waits in clinics</p></li>
+      <li class="card reason rv"><div class="rt"><span class="icbox"><i class="ph-fill ph-path"></i></span><span class="rn">03</span></div><h3 data-t="y3h">A complete journey</h3><p data-t="y3p">From diagnosis and follow-up to recovery</p></li>
+      <li class="card reason rv"><div class="rt"><span class="icbox"><i class="ph-fill ph-hand-heart"></i></span><span class="rn">04</span></div><h3 data-t="y4h">Comfortable care</h3><p data-t="y4p">Medical consultations wherever you are</p></li>
+    </ul>
+  </div>
+</section>
+
+<section class="band promise" aria-label="TADAWA">
+  <div class="wrap"><p data-t="promise">TADAWA… healthcare that is closer, smarter and more efficient</p></div>
+  <div class="hb" data-peak=".76" data-peak-rtl=".24" data-s=".36" data-s-lg=".5" data-tone="white"></div>
+</section>
+
+<section class="sec" id="services">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <span class="eyebrow" data-t="vEyebrow">Family doctor services</span>
+      <h2 data-t="vH">Your care <em>journey with us</em></h2>
+      <p class="lead" data-t="vLead">You start with primary care through the TADAWA app, then we handle each case according to its medical need.</p>
+    </div>
+    <div class="tabs rv" role="tablist" aria-label="Family doctor services" data-t-aria="vEyebrow">
+      <button type="button" class="tab" role="tab" id="tab-now" aria-controls="panel-now" aria-selected="true" data-tab="now"><i class="ph-fill ph-phone"></i><span data-t="svcNow">Treat Me Now</span></button>
+      <button type="button" class="tab" role="tab" id="tab-remote" aria-controls="panel-remote" aria-selected="false" tabindex="-1" data-tab="remote"><i class="ph-fill ph-video-camera"></i><span data-t="svcRemote">Remote visit</span></button>
+      <button type="button" class="tab" role="tab" id="tab-clinic" aria-controls="panel-clinic" aria-selected="false" tabindex="-1" data-tab="clinic"><i class="ph-fill ph-hospital"></i><span data-t="svcClinic">Clinic visit</span></button>
+    </div>
+    <div class="card panel" role="tabpanel" id="panel-now" aria-labelledby="tab-now">
+      <span class="icbox"><i class="ph-fill ph-phone"></i></span>
+      <span class="badge"><i class="ph-fill ph-lightning"></i><span data-t="p1tag">Urgent case</span></span>
+      <div><h3 data-t="svcNow">Treat Me Now</h3><span class="en">Treat Me Now</span></div>
+      <p data-t="p1">Talk right away to an available doctor at the tap of a button in the app. No appointment needed.</p>
+    </div>
+    <div class="card panel" role="tabpanel" id="panel-remote" aria-labelledby="tab-remote" hidden>
+      <span class="icbox"><i class="ph-fill ph-video-camera"></i></span>
+      <span class="badge"><i class="ph-fill ph-calendar-check"></i><span data-t="p2tag">On your schedule</span></span>
+      <div><h3 data-t="svcRemote">Remote visit</h3><span class="en">Remote Visit</span></div>
+      <p data-t="p2">For non-urgent cases and routine check-ups, book a video consultation at the time that suits you.</p>
+    </div>
+    <div class="card panel" role="tabpanel" id="panel-clinic" aria-labelledby="tab-clinic" hidden>
+      <span class="icbox"><i class="ph-fill ph-hospital"></i></span>
+      <span class="badge"><i class="ph-fill ph-stethoscope"></i><span data-t="p3tag">Physical examination</span></span>
+      <div><h3 data-t="svcClinic">Clinic visit</h3><span class="en">Office Visit</span></div>
+      <p data-t="p3">For cases that need a physical examination, visit one of the TADAWA clinics and continue your treatment with the doctor in person.</p>
+      <button type="button" class="btn btn-secondary" data-go="clinics"><i class="ph-fill ph-map-pin"></i><span data-t="seeClinics">See clinic locations</span></button>
+    </div>
+    <div class="after rv" id="after"><i class="ph-fill ph-arrow-bend-up-right flip"></i><p data-t="after">And after that: ongoing follow-up with your doctor, and referral to subspecialties when needed.</p></div>
+  </div>
+</section>
+
+<section class="band benefits" id="benefits" style="scroll-margin-top:calc(var(--head-h) + env(safe-area-inset-top,0px))">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <span class="eyebrow" data-t="bEyebrow">Just for you</span>
+      <h2 data-t="bH">Extra benefits with TADAWA services</h2>
+    </div>
+    <div class="bens">
+      <div class="card ben rv">
+        <span class="badge"><i class="ph-fill ph-seal-check"></i><span data-t="b1k">Exclusive benefit</span></span>
+        <span class="big">0%</span>
+        <h3 data-t="b1h">Telemedicine consultations with no co-payment</h3>
+        <p data-t="b1p">Remote medical consultations through the TADAWA app with no co-payment until the end of the year.</p>
+        <span class="badge"><i class="ph-fill ph-calendar-check"></i><span data-t="b1v">Valid until the end of the year</span></span>
+      </div>
+      <div class="card ben rv">
+        <span class="badge"><i class="ph-fill ph-gift"></i><span data-t="b2k">Referrals</span></span>
+        <span class="big w" data-t="b2big">Free</span>
+        <h3 data-t="b2h">Free medical referrals</h3>
+        <p data-t="b2p">If your condition calls for a specialist, we refer you free of charge, without using up a claim form.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="sec" id="next">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <span class="eyebrow" data-t="nEyebrow">Next step</span>
+      <h2 data-t="nH">Start your health <em>journey now</em></h2>
+    </div>
+    <div class="next">
+      <a class="video rv" href="https://www.youtube.com/watch?v=W5jCTL_hdlc" target="_blank" rel="noopener">
+        <span class="playb"><i class="ph-fill ph-play"></i></span>
+        <h3 data-t="n1h">The explainer video</h3>
+        <p data-t="n1p">See, step by step, the new way healthcare services reach you through the TADAWA platform.</p>
+        <span class="go"><span data-t="watchVideo">Watch the video</span><i class="ph ph-arrow-up-right flip"></i></span>
+      </a>
+      <div class="card dl rv">
+        <span class="icbox"><i class="ph-fill ph-device-mobile"></i></span>
+        <h3 data-t="dlApp">Download the app</h3>
+        <p data-t="n2p">Download the TADAWA app to create your medical file and be ready to receive care.</p>
+        <a class="btn btn-primary btn-lg" href="https://qrfy.io/p/BxlzX9Y87q" target="_blank" rel="noopener"><i class="ph-fill ph-download-simple"></i><span data-t="dlApp">Download the app</span></a>
+      </div>
+      <a class="card faq rv" href="https://prodtadawawebsite.d3nm6bcwrtfsx6.amplifyapp.com/faqs/" target="_blank" rel="noopener">
+        <span class="icbox"><i class="ph-fill ph-question"></i></span>
+        <span class="tx"><b data-t="faqH">Frequently asked questions</b><span data-t="faqP">Quick answers to common questions</span></span>
+        <i class="ph ph-arrow-up-right flip"></i>
+      </a>
+    </div>
+  </div>
+</section>
+
+<section class="sec" id="clinics" style="padding-top:0">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <span class="eyebrow" data-t="cEyebrow">Visit us</span>
+      <h2 data-t="cH">Clinic <em>locations</em></h2>
+      <p class="lead" data-t="cLead">Visit one of our clinics for in-person care.</p>
+    </div>
+    <div class="clinics">
+      <div class="card clinic rv">
+        <div class="ch"><span class="icbox"><i class="ph-fill ph-map-pin"></i></span><div><h3 data-t="c1h">TADAWA Clinic, Khalidi</h3><span class="city" data-t="c1c">Amman</span></div></div>
+        <div class="telrow"><span class="num">079 073 0275</span><button type="button" class="icon-btn" data-copy="079 073 0275" aria-label="Copy number" data-t-aria="copyNum"><i class="ph ph-copy"></i></button></div>
+        <div class="acts">
+          <a class="btn btn-secondary" href="tel:+962790730275"><i class="ph-fill ph-phone"></i><span data-t="callClinic">Call the clinic</span></a>
+          <a class="btn btn-ghost" target="_blank" rel="noopener" href="https://www.google.com/maps/place/Tadawa+Healthcare/@31.9497819,35.906163,739m/data=!3m2!1e3!4b1!4m6!3m5!1s0x151ca1a901ba8c4d:0xc83fd66b36885abd!8m2!3d31.9497819!4d35.906163!16s%2Fg%2F11z3b7nbvb"><i class="ph-fill ph-map-trifold"></i><span data-t="openMap">Open the map</span></a>
+        </div>
+      </div>
+      <div class="card clinic rv">
+        <div class="ch"><span class="icbox"><i class="ph-fill ph-map-pin"></i></span><div><h3 data-t="c2h">TADAWA Medical Center</h3><span class="city" data-t="c2c">Al Tafileh</span></div></div>
+        <div class="telrow"><span class="num">079 338 1119</span><button type="button" class="icon-btn" data-copy="079 338 1119" aria-label="Copy number" data-t-aria="copyNum"><i class="ph ph-copy"></i></button></div>
+        <div class="acts">
+          <a class="btn btn-secondary" href="tel:+962793381119"><i class="ph-fill ph-phone"></i><span data-t="callClinic">Call the clinic</span></a>
+          <a class="btn btn-ghost" target="_blank" rel="noopener" href="https://www.google.com/maps/place/Tadawa+Medical+Center+-+%D9%85%D8%B1%D9%83%D8%B2+%D8%AA%D8%AF%D9%88%D8%A7%D9%89+%D8%A7%D9%84%D8%B7%D8%A8%D9%8A%E2%80%AD/@30.8427129,35.6452999,17z/data=!3m1!4b1!4m6!3m5!1s0x150395ae6ad2dec9:0x348797266d71f829!8m2!3d30.8427129!4d35.6478802!16s/g/11zblm53fh"><i class="ph-fill ph-map-trifold"></i><span data-t="openMap">Open the map</span></a>
+        </div>
+      </div>
+      <div class="card clinic rv">
+        <div class="ch"><span class="icbox"><i class="ph-fill ph-map-pin"></i></span><div><h3 data-t="c3h">TADAWA Medical Clinic</h3><span class="city" data-t="c3c">Irbid</span></div></div>
+        <div class="telrow"><span class="num">079 010 7082</span><button type="button" class="icon-btn" data-copy="079 010 7082" aria-label="Copy number" data-t-aria="copyNum"><i class="ph ph-copy"></i></button></div>
+        <div class="acts">
+          <a class="btn btn-secondary" href="tel:+962790107082"><i class="ph-fill ph-phone"></i><span data-t="callClinic">Call the clinic</span></a>
+          <a class="btn btn-ghost" target="_blank" rel="noopener" href="https://www.google.com/maps?q=HV33+882+%D8%B9%D9%8A%D8%A7%D8%AF%D8%A7%D8%AA+%D9%86%D8%A8%D8%B6+%D8%A7%D9%84%D8%A3%D9%85%D9%84+%D8%A7%D9%84%D8%B7%D8%A8%D9%8A%D8%A9+-+%D8%A7%D8%B1%D8%A8%D8%AF%D8%8C+%D8%B4.+%D9%85%D8%AD%D9%85%D8%AF+%D9%85%D8%B5%D8%B7%D9%81%D9%89+%D8%AD%D8%AC%D8%A7%D8%B2%D9%8A,+Irbid&amp;ftid=0x151c770032521ea3:0x4d05dd7d102f93d2"><i class="ph-fill ph-map-trifold"></i><span data-t="openMap">Open the map</span></a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer class="band foot">
+  <div class="wrap">
+    <div class="contact">
+      <span class="who" data-t="fWho">TADAWA Healthcare LLC</span>
+      <span class="big num">079 322 6000</span>
+      <div class="row">
+        <a class="btn btn-inverse btn-lg" href="tel:+962793226000"><i class="ph-fill ph-phone"></i><span data-t="callNow">Call us now</span></a>
+        <button type="button" class="btn btn-onbrand btn-lg" data-copy="079 322 6000"><i class="ph ph-copy"></i><span data-t="copyNum">Copy number</span></button>
+      </div>
+      <a class="url" href="https://www.tadawa.com/" target="_blank" rel="noopener">www.tadawa.com</a>
+    </div>
+    <img class="logo" src="{{LOGO_WHITE}}" alt="TADAWA تداوىٰ" width="131" height="64">
+  </div>
+  <div class="hb" data-peak=".3" data-peak-rtl=".3" data-s=".36" data-s-lg=".5" data-tone="white"></div>
+  <div class="dock-space"></div>
+</footer>
+
+<nav class="dock" aria-label="Quick actions" data-t-aria="quick">
+  <a href="tel:+962793226000"><i class="ph-fill ph-phone"></i><span data-t="callNow">Call us now</span></a>
+  <a href="https://qrfy.io/p/BxlzX9Y87q" target="_blank" rel="noopener"><i class="ph-fill ph-download-simple"></i><span data-t="getApp">Get the app</span></a>
+  <a href="https://www.youtube.com/watch?v=W5jCTL_hdlc" target="_blank" rel="noopener"><i class="ph-fill ph-play"></i><span data-t="watchVideo">Watch the video</span></a>
+</nav>
+
+<dialog class="sheet" id="sheet" aria-labelledby="sheetH">
+  <div class="sheet-in">
+    <div class="sheet-top"><h2 id="sheetH" data-t="contents">Contents</h2><button type="button" class="icon-btn" id="closeToc" aria-label="Close" data-t-aria="close"><i class="ph ph-x"></i></button></div>
+    <ol class="toc" id="toc2"></ol>
+  </div>
+</dialog>
+<div class="toast" id="toast" role="status"><i class="ph-fill ph-check-circle"></i><span></span></div>
+
+<script>
+(function(){
+  var AR={
+    title:'دليل تداوىٰ للطبابة عن بعد',
+    callNow:'اتصل بنا', getApp:'حمّل التطبيق', watchVideo:'شاهد الفيديو', dlApp:'حمّل التطبيق',
+    contents:'المحتويات', close:'إغلاق', quick:'إجراءات سريعة', copyNum:'نسخ الرقم', copied:'تم نسخ الرقم',
+    heroTag:'دليل الطبابة عن بعد', heroCo:'تداوىٰ للرعاية الصحية', heroH1:'طبيـبك الخاص أينما كنت',
+    heroLead:'دليل مبسط للتعرف على آلية الاستفادة من خدمات تداوىٰ للطبابة عن بعد، من الاستشارة الطبية وحتى المتابعة والتحويل عند الحاجة.',
+    svcNow:'عالجني الآن', svcRemote:'استشارة عن بعد', svcClinic:'زيارة العيادة', svcFollow:'متابعة وتحويل',
+    tocEyebrow:'في هذا الدليل', tocH:'كل ما تحتاجونه هنا', tocHint:'اضغطوا على أي عنوان للانتقال إليه مباشرة',
+    toc1:'مرحبًا بكم في تداوىٰ', toc2:'ما هو نظام تداوىٰ؟', toc3:'كيف تبدأ الخدمة والتأمين', toc4:'لماذا تداوىٰ؟',
+    toc5:'خدمات طبيب العائلة', toc6:'مزايا إضافية مع تداوىٰ', toc7:'ابدأ رحلتك الصحية', toc8:'مواقع العيادات والتواصل',
+    wEyebrow:'أهلًا بكم', wH:'مرحبًا بكم في <em>تداوىٰ</em>', wNoteK:'رسالة ترحيب',
+    wNote:'يسعدنا انضمامكم، ونود أن نرحب بكم في نظام تداوىٰ للرعاية الصحية الأولية. بصفتكم جزءًا من المنظومة، فإن صحتكم ورفاهيتكم هي أولويتنا القصوى، ولذلك نحن هنا لنقدم لكم تجربة طبية متكاملة، مريحة، وموثوقة.',
+    f1h:'متابعة بواسطة أطباء مختصين', f1p:'أخصائيو طب الأسرة معكم في كل خطوة',
+    f2h:'رحلة علاجية منظمة ومتكاملة', f2p:'من الاستشارة حتى المتابعة والتحويل',
+    f3h:'استشارة أسرع دون انتظار طويل', f3p:'تحدثوا مع طبيب بضغطة زر',
+    f4h:'خدمة رقمية سهلة الاستخدام', f4p:'كل شيء من تطبيق واحد',
+    qEyebrow:'تعرّفوا علينا', qH:'ما هو نظام <em>تداوىٰ</em>؟',
+    qLead:'منصة رعاية صحية أولية حديثة تعتمد على الطبابة عن بعد (<span class="lat">Telemedicine</span>)، ومصممة لتقديم استشارات طبية سريعة وعالية الجودة أينما كنتم، لتوفير الوقت وعناء الانتظار في العيادات التقليدية.',
+    shotCap:'الشاشة الرئيسية لتطبيق تداوىٰ', shotHint:'اضغطوا على أي خدمة في الشاشة للتعرف عليها',
+    sEyebrow:'خطوة بخطوة', sH:'كيف <em>تبدأ الخدمة؟</em>',
+    s1h:'تفعيل الحسابات', s1p:'تقوم جهة العمل بتفعيل حسابات الموظفين.',
+    s2h:'تحميل التطبيق وإنشاء الملف الطبي', s2p:'حمّلوا تطبيق تداوىٰ وأنشئوا ملفكم الطبي.',
+    s3h:'استخدام الخدمة حسب الحالة',
+    iH:'أضيفوا تأمينكم', iSub:'ثلاث خطوات من داخل التطبيق', i1:'افتحوا صحتي', i2:'اضغطوا الإعدادات', i3:'اختاروا معلومات التأمين',
+    iNote:'أضيفوا تفاصيل التأمين الخاصة بكم لتفعيل جميع الخدمات على تطبيق تداوىٰ.',
+    yEyebrow:'لماذا تداوىٰ؟', yH:'لماذا تداوىٰ هي <em>خياركم الأفضل؟</em>', yLead:'أربعة أسباب تجعل رعايتكم أسهل وأقرب.',
+    y1h:'نخبة الأطباء', y1p:'رعاية بواسطة أخصائيي طب الأسرة', y2h:'توفير الوقت', y2p:'وداعًا للانتظار الطويل في العيادات',
+    y3h:'رحلة متكاملة', y3p:'من التشخيص والمتابعة حتى الشفاء', y4h:'رعاية مريحة', y4p:'استشارات طبية أينما كنتم',
+    promise:'تداوىٰ… رعاية صحية أقــرب، أذكــى وأكــثر كفــاءة',
+    vEyebrow:'خدمات طبيب العائلة', vH:'رحلتكم <em>العلاجية معنا</em>',
+    vLead:'تبدأون من الرعاية الأولية عبر تطبيق تداوىٰ، ثم يتم التعامل مع كل حالة حسب احتياجها الطبي.',
+    p1tag:'حالة عاجلة', p1:'تحدثوا فورًا مع طبيب متاح بضغطة زر عبر التطبيق، دون الحاجة لحجز موعد.',
+    p2tag:'حسب وقتكم', p2:'للحالات غير المستعجلة والمراجعات الدورية، احجزوا موعد استشارة بالفيديو في الوقت الذي يناسبكم.',
+    p3tag:'فحص سريري', p3:'للحالات التي تحتاج إلى فحص سريري، زوروا إحدى عيادات تداوىٰ واستكملوا العلاج مع الطبيب مباشرة.',
+    seeClinics:'مواقع العيادات', after:'وبعد ذلك: متابعة مستمرة مع طبيبكم، وتحويل للاختصاصات الفرعية عند الحاجة.',
+    bEyebrow:'لكم وحدكم', bH:'مزايا إضافية مع خدمات تداوىٰ',
+    b1k:'ميزة حصرية', b1h:'استشارات الطبابة عن بعد بدون نسبة تحمّل',
+    b1p:'استشارات طبية عن بُعد عبر تطبيق تداوىٰ دون دفع نسبة تحمّل حتى نهاية العام.', b1v:'سارية حتى نهاية العام',
+    b2k:'التحويلات', b2big:'مجانًا', b2h:'تحويلات طبية مجانية',
+    b2p:'إن كانت حالتكم تستدعي التحويل إلى أخصائي، سيتم تحويلكم مجانًا دون استهلاك نموذج.',
+    nEyebrow:'الخطوة التالية', nH:'ابدأ رحلتك <em>الصحية الآن</em>',
+    n1h:'الفيديو التوضيحي', n1p:'تعرّفوا خطوة بخطوة على الآلية الجديدة لتقديم خدمات الرعاية الصحية عبر منصة تداوىٰ.',
+    n2p:'حمّلوا تطبيق تداوىٰ لإنشاء ملفكم الطبي وضمان جاهزيتكم لتلقي الرعاية.',
+    faqH:'الأسئلة الشائعة', faqP:'إجابات سريعة عن أكثر الاستفسارات',
+    cEyebrow:'زورونا', cH:'مواقع <em>العيادات</em>', cLead:'زوروا إحدى عياداتنا لتلقي العلاج الوجاهي.',
+    c1h:'عيادة تداوىٰ، الخالدي', c1c:'عمّان', c2h:'مركز تداوىٰ الطبي', c2c:'الطفيلة', c3h:'عيادة تداوىٰ الطبية', c3c:'إربد',
+    callClinic:'اتصال مباشر بالعيادة', openMap:'فتح الموقع على الخريطة',
+    fWho:'للتواصل مع تداوىٰ عبر رقم الموبايل',
+    meter:'{n} من 3', meterDone:'أتممتم الخطوات الثلاث'
+  };
+  var EN={title:document.title, copied:'Number copied', meter:'{n} of 3 done', meterDone:'All three steps done',
+          contents:'Contents', close:'Close', quick:'Quick actions', copyNum:'Copy number'};
+  var root=document.documentElement, $=function(s,c){return (c||document).querySelector(s)}, $$=function(s,c){return [].slice.call((c||document).querySelectorAll(s))};
+  var reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var store={get:function(k){try{return localStorage.getItem(k)}catch(e){return null}},set:function(k,v){try{localStorage.setItem(k,v)}catch(e){}}};
+
+  /* contents sheet shares the cover's list */
+  $('#toc2').innerHTML=$('#toc').innerHTML;
+
+  $$('[data-t]').forEach(function(el){ var k=el.dataset.t; if(!(k in EN)) EN[k]=el.innerHTML; });
+  var lang='en';
+  function t(k){ return (lang==='ar'&&AR[k]!=null)?AR[k]:EN[k]; }
+  function setLang(l,save){
+    lang=l==='ar'?'ar':'en';
+    root.lang=lang; root.dir=lang==='ar'?'rtl':'ltr';
+    $$('[data-t]').forEach(function(el){ el.innerHTML=t(el.dataset.t); });
+    $$('[data-t-aria]').forEach(function(el){ el.setAttribute('aria-label',t(el.dataset.tAria)); });
+    $$('[data-t-alt]').forEach(function(el){ el.alt=t(el.dataset.tAlt); });
+    $$('.spot').forEach(function(b){ b.setAttribute('aria-label',t(b.dataset.svc==='now'?'svcNow':b.dataset.svc==='remote'?'svcRemote':'svcClinic')); });
+    /* the Arabic app screen lists the three services in the opposite order */
+    var order=lang==='ar'?['remote','clinic','now']:['now','clinic','remote'];
+    $$('.spot').forEach(function(b,i){ b.dataset.svc=order[i]; b.setAttribute('aria-label',t(order[i]==='now'?'svcNow':order[i]==='remote'?'svcRemote':'svcClinic')); });
+    var shot=$('#shot'); shot.src=shot.dataset[lang];
+    document.title=t('title');
+    $$('.lang button').forEach(function(b){ b.setAttribute('aria-pressed',String(b.dataset.lang===lang)); });
+    if(save) store.set('tdw-guide-lang',lang);
+    meter(); pulses(true); progress();
+  }
+  $$('.lang button').forEach(function(b){ b.addEventListener('click',function(){ setLang(b.dataset.lang,true); }); });
+
+  /* jumps */
+  function go(id){ var el=document.getElementById(id); if(el) el.scrollIntoView({behavior:reduce?'auto':'smooth',block:'start'}); }
+  var sheet=$('#sheet');
+  document.addEventListener('click',function(e){
+    var b=e.target.closest('[data-go],[data-svc],[data-copy]'); if(!b) return;
+    if(b.dataset.copy){ copy(b.dataset.copy); return; }
+    if(sheet.open) sheet.close();
+    if(b.dataset.svc){ pick(b.dataset.svc); go('services'); }
+    else go(b.dataset.go);
+  });
+  $('#openToc').addEventListener('click',function(){ if(sheet.showModal) sheet.showModal(); else sheet.setAttribute('open',''); });
+  $('#closeToc').addEventListener('click',function(){ sheet.close(); });
+  sheet.addEventListener('click',function(e){ if(e.target===sheet) sheet.close(); });
+
+  /* service tabs */
+  var tabs=$$('.tab');
+  function pick(id,focus){
+    tabs.forEach(function(tb){ var on=tb.dataset.tab===id; tb.setAttribute('aria-selected',String(on)); tb.tabIndex=on?0:-1; if(on&&focus) tb.focus();
+      document.getElementById('panel-'+tb.dataset.tab).hidden=!on; });
+  }
+  tabs.forEach(function(tb,i){
+    tb.addEventListener('click',function(){ pick(tb.dataset.tab); });
+    tb.addEventListener('keydown',function(e){
+      var d=e.key==='ArrowRight'?1:e.key==='ArrowLeft'?-1:0; if(!d) return;
+      if(root.dir==='rtl') d=-d; e.preventDefault();
+      pick(tabs[(i+d+tabs.length)%tabs.length].dataset.tab,true);
+    });
+  });
+
+  /* insurance checklist */
+  var boxes=$$('.checks input');
+  function meter(){
+    var n=boxes.filter(function(b){return b.checked}).length, m=$('#meter');
+    m.classList.toggle('done',n===3);
+    m.innerHTML=n===3?'<i class="ph-fill ph-check-circle"></i>'+t('meterDone'):'<span class="lat">'+t('meter').replace('{n}',n)+'</span>';
+    if(lang==='ar'&&n<3) m.innerHTML=t('meter').replace('{n}','<span class="lat">'+n+'</span>').replace('3','<span class="lat">3</span>');
+  }
+  var saved=(store.get('tdw-guide-ins')||'').split('');
+  boxes.forEach(function(b,i){ b.checked=saved[i]==='1'; b.addEventListener('change',function(){ store.set('tdw-guide-ins',boxes.map(function(x){return x.checked?'1':'0'}).join('')); meter(); }); });
+
+  /* copy */
+  var toast=$('#toast'), tt;
+  function say(msg){ toast.lastElementChild.textContent=msg; toast.classList.add('on'); clearTimeout(tt); tt=setTimeout(function(){ toast.classList.remove('on'); },2200); }
+  function copy(txt){
+    var ok=function(){ say(t('copied')+' · '+txt); };
+    try{ navigator.clipboard.writeText(txt.replace(/\s/g,'')).then(ok,fallback); }catch(e){ fallback(); }
+    function fallback(){ var el=$$('.num').filter(function(n){return n.textContent===txt})[0]; if(el){ var r=document.createRange(); r.selectNodeContents(el); var s=getSelection(); s.removeAllRanges(); s.addRange(r); } say(txt); }
+  }
+
+  /* reading progress + current section */
+  var secs=['welcome','what','start','why','services','benefits','next','clinics'].map(function(id){return document.getElementById(id)});
+  var bar=$('#progress'), tick=false;
+  function progress(){
+    var max=document.documentElement.scrollHeight-innerHeight, y=scrollY||document.documentElement.scrollTop;
+    bar.style.width=(max>0?Math.min(100,y/max*100):0)+'%';
+    var cur=null; secs.forEach(function(s){ if(s.getBoundingClientRect().top<innerHeight*.4) cur=s.id; });
+    $$('.toc button').forEach(function(b){ if(b.dataset.go===cur) b.setAttribute('aria-current','true'); else b.removeAttribute('aria-current'); });
+  }
+  function showSeen(){ $$('.rv-wait').forEach(function(el){ if(el.getBoundingClientRect().top<innerHeight) el.classList.remove('rv-wait'); }); }
+  addEventListener('scroll',function(){ showSeen(); if(tick) return; tick=true; requestAnimationFrame(function(){ tick=false; progress(); }); },{passive:true});
+
+  /* Tadawa pulse: geometry from the logo (baseline, A peak with crossbar, dip, baseline). Never mirrored. */
+  var NS='http://www.w3.org/2000/svg', TONE={base:'rgba(255,255,255,.38)',dash:'rgba(255,255,255,.38)',trace:'#ffffff'};
+  var hbs=$$('.hb');
+  function build(el){
+    (el._anims||[]).forEach(function(a){try{a.cancel()}catch(e){}}); el._anims=[]; el.innerHTML='';
+    var W=el.clientWidth||innerWidth, s=+(W>=900?el.dataset.sLg:el.dataset.s)||.4;
+    var P=+(root.dir==='rtl'?el.dataset.peakRtl:el.dataset.peak)*W;
+    var up=126*s, dn=44*s, sw=15*s, pad=sw+4, y0=pad+up, H=up+dn+pad*2, x0=-30, x1=W+30;
+    var d='M'+x0+' '+y0+' H'+(P-43*s)+' L'+P+' '+(y0-up)+' L'+(P+58*s)+' '+(y0+dn)+' L'+(P+79*s)+' '+y0+' H'+x1;
+    var dash='M'+(P-13*s)+' '+(y0-16.6*s)+' H'+(P+6*s);
+    var svg=document.createElementNS(NS,'svg');
+    svg.setAttribute('width',W); svg.setAttribute('height',H); svg.setAttribute('viewBox','0 0 '+W+' '+H); svg.setAttribute('aria-hidden','true');
+    function p(dd,c){ var e=document.createElementNS(NS,'path'); e.setAttribute('d',dd); e.setAttribute('stroke',c); e.setAttribute('stroke-width',sw); svg.appendChild(e); return e; }
+    el._base=p(d,TONE.base); el._dash=p(dash,TONE.dash); el._trace=p(d,TONE.trace); el._trace.style.opacity=0;
+    el.style.height=H+'px'; el.appendChild(svg);
+  }
+  function play(el,first){
+    if(reduce||!el._base||!el._base.animate) return;
+    var L=el._base.getTotalLength(), seg=Math.min(260,L*.14), tr=el._trace, delay=0;
+    if(first){
+      el._base.style.strokeDasharray=L;
+      el._anims.push(el._base.animate([{strokeDashoffset:L},{strokeDashoffset:0}],{duration:1900,delay:120,easing:'cubic-bezier(.65,0,.35,1)',fill:'backwards'}));
+      el._anims.push(el._dash.animate([{opacity:0},{opacity:1}],{duration:400,delay:1165,fill:'backwards'}));
+      delay=2200;
+    }
+    tr.style.opacity=1; tr.style.strokeDasharray=seg+' '+(L+seg*2);
+    el._anims.push(tr.animate([{strokeDashoffset:seg},{strokeDashoffset:-L,offset:.72},{strokeDashoffset:-L}],{duration:Math.max(2600,L/.75),delay:delay,iterations:Infinity,easing:'linear',fill:'backwards'}));
+  }
+  var io=('IntersectionObserver' in window)?new IntersectionObserver(function(es){
+    es.forEach(function(e){ var el=e.target;
+      if(e.isIntersecting){ if(!el._on){ el._on=true; play(el,!el._drawn); el._drawn=true; } }
+      else if(el._on){ el._on=false; (el._anims||[]).forEach(function(a){try{a.cancel()}catch(x){}}); el._anims=[]; if(el._trace) el._trace.style.opacity=0; }
+    });
+  },{threshold:.2}):null;
+  function pulses(keep){ hbs.forEach(function(el){ build(el); if(el._on){ play(el,!keep&&!el._drawn); } if(io&&!el._obs){ io.observe(el); el._obs=true; } }); }
+  var rz, lastW=innerWidth;
+  addEventListener('resize',function(){ clearTimeout(rz); rz=setTimeout(function(){ if(innerWidth!==lastW){ lastW=innerWidth; pulses(true); } progress(); },160); });
+
+  /* calm reveal for content that starts below the fold */
+  if(!reduce&&'IntersectionObserver' in window){
+    var ro=new IntersectionObserver(function(es){ es.forEach(function(e){ if(e.isIntersecting){ e.target.classList.remove('rv-wait'); ro.unobserve(e.target); } }); },{rootMargin:'0px 0px -6% 0px'});
+    requestAnimationFrame(function(){ $$('.rv').forEach(function(el){ if(el.getBoundingClientRect().top>innerHeight){ el.classList.add('rv-wait'); ro.observe(el); } }); });
+  }
+
+  var h=(location.hash||'').replace('#','');
+  var start=(h==='ar'||h==='en')?h:(store.get('tdw-guide-lang')||((navigator.language||'').toLowerCase().indexOf('ar')===0?'ar':'en'));
+  setLang(start,false);
+  if(document.fonts&&document.fonts.ready) document.fonts.ready.then(function(){ progress(); });
+})();
+</script>
