@@ -2,8 +2,8 @@
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Readex+Pro:wght@300;400;500;600;700&display=swap">
 <style>
-/* Layout: one long mobile-first guide. White ground, teal gradient bands for the cover, the promise and the benefits;
-   sticky header with language switch, contents sheet, and a bottom action dock on phones. Tadawa identity is light only. */
+/* Layout: an immersive long-scroll guide. A floating pill header rides over a full-bleed teal cover with an oversized pulse;
+   teal "stage" bands alternate with white sections; phones get a floating action dock. Tadawa identity: light only, teal and white. */
 :root{
   color-scheme:light;
   --ink:#231f20; --ink-800:#3a3536; --ink-600:#5b5658; --ink-400:#8b8789;
@@ -11,22 +11,22 @@
   --teal-50:#eef6f8; --teal-100:#dcedf1; --teal-200:#b4dae3; --teal-300:#7fbfcd;
   --mist-100:#f2f3f6; --mist-200:#e6e8ee; --mist-400:#d0d4dd; --mist-500:#b3b8c4;
   --white:#ffffff;
-  --on-brand-muted:rgba(255,255,255,.78); --border-on-brand:rgba(255,255,255,.28);
-  --success:#2f8a5e; --success-bg:#e5f3ec;
+  --on-brand-muted:rgba(255,255,255,.8); --border-on-brand:rgba(255,255,255,.28); --fill-on-brand:rgba(255,255,255,.1); --fill-on-brand-2:rgba(255,255,255,.18);
+  --success:#2f8a5e;
   --gradient:linear-gradient(135deg,#0e8098 0%,#115e6d 100%);
   --shadow-1:0 1px 2px rgba(35,31,32,.06),0 1px 3px rgba(17,94,109,.06);
   --shadow-2:0 2px 6px rgba(35,31,32,.06),0 8px 24px rgba(17,94,109,.08);
   --shadow-3:0 8px 20px rgba(35,31,32,.08),0 24px 48px rgba(17,94,109,.14);
-  --focus:0 0 0 3px rgba(14,128,152,.28);
+  --focus:0 0 0 3px rgba(14,128,152,.28); --focus-on-brand:0 0 0 3px rgba(255,255,255,.6);
   --r-sm:8px; --r-md:14px; --r-lg:24px; --r-xl:32px; --r-pill:999px;
   --ease:cubic-bezier(.2,0,0,1); --fast:120ms; --base:200ms; --slow:320ms;
   --font-lat:"Readex Pro","Madani Arabic","Segoe UI",system-ui,sans-serif;
   --font-ar:"Madani Arabic","Alexandria","Noto Sans Arabic","Segoe UI",sans-serif;
   --font:var(--font-lat);
-  --track:.03em; --track-caps:.08em; --lh:1.5; --lh-head:1.15;
-  --head-h:64px;
+  --track:.03em; --track-caps:.1em; --track-head:-.02em; --lh:1.5; --lh-head:1.08;
+  --head-h:84px;
 }
-:root[lang="ar"]{ --font:var(--font-ar); --track:0; --track-caps:0; --lh:1.9; --lh-head:1.45; }
+:root[lang="ar"]{ --font:var(--font-ar); --track:0; --track-caps:0; --track-head:0; --lh:1.9; --lh-head:1.4; }
 @media (prefers-reduced-motion:reduce){ :root{ --fast:0ms; --base:0ms; --slow:0ms; } }
 
 @font-face{font-family:"Madani Arabic";src:url({{FONT_MADANI_REG}}) format("truetype");font-weight:300 500;font-style:normal;font-display:swap}
@@ -42,34 +42,43 @@
 html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
 @media (prefers-reduced-motion:reduce){ html{scroll-behavior:auto} }
 body{margin:0;background:var(--white);color:var(--ink);font:400 16px/var(--lh) var(--font);letter-spacing:var(--track);-webkit-font-smoothing:antialiased;overflow-x:hidden}
-body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:60;background:var(--white)}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:60;background:var(--teal)}
 h1,h2,h3,h4,p,ul,ol,figure{margin:0}
 ul,ol{padding:0;list-style:none}
-h1,h2,h3{text-wrap:balance;line-height:var(--lh-head);font-weight:700}
-h1{font-size:clamp(34px,6.2vw,56px);letter-spacing:0}
-h2{font-size:clamp(27px,4.2vw,40px);letter-spacing:0}
-h3{font-size:20px;line-height:1.3}
+h1,h2,h3{text-wrap:balance;font-weight:700}
+h1{font-size:clamp(40px,8.4vw,84px);line-height:var(--lh-head);letter-spacing:var(--track-head)}
+h2{font-size:clamp(30px,5vw,52px);line-height:var(--lh-head);letter-spacing:var(--track-head)}
+:root[lang="ar"] h1{font-size:clamp(38px,7.6vw,76px)}
+h3{font-size:20px;line-height:1.3;letter-spacing:0}
 :root[lang="ar"] h3{line-height:1.6}
 p{text-wrap:pretty}
 a{color:inherit}
 button{font:inherit;letter-spacing:inherit;color:inherit;background:none;border:0;padding:0;cursor:pointer}
+a[href],label.check{cursor:pointer}
 img{display:block}
 :focus-visible{outline:none;box-shadow:var(--focus)}
+.band :focus-visible{box-shadow:var(--focus-on-brand)}
+.band .card :focus-visible{box-shadow:var(--focus)}
 .lat{font-family:var(--font-lat);font-variant-numeric:tabular-nums}
 .num{font-family:var(--font-lat);font-variant-numeric:tabular-nums;direction:ltr;unicode-bidi:isolate;display:inline-block}
 [dir="rtl"] .flip{transform:scaleX(-1)}
 
-.wrap{max-width:1120px;margin-inline:auto;padding-left:max(20px,env(safe-area-inset-left,0px));padding-right:max(20px,env(safe-area-inset-right,0px))}
-.sec{padding-block:56px;scroll-margin-top:calc(var(--head-h) + env(safe-area-inset-top,0px))}
-@media (min-width:900px){ .sec{padding-block:88px} }
-.eyebrow{display:inline-flex;align-items:center;gap:8px;font-size:13px;font-weight:700;color:var(--teal);text-transform:uppercase;letter-spacing:var(--track-caps);line-height:1.4}
-:root[lang="ar"] .eyebrow{font-size:15px}
-.sec-head{display:grid;gap:12px;max-width:640px;margin-bottom:32px}
-.sec-head em,.hero h1 em{font-style:normal;color:var(--teal)}
-.lead{font-size:18px;color:var(--ink-600)}
-.muted{color:var(--ink-600)}
+.wrap{max-width:1160px;margin-inline:auto;padding-left:max(20px,env(safe-area-inset-left,0px));padding-right:max(20px,env(safe-area-inset-right,0px))}
+.sec{padding-block:64px;scroll-margin-top:calc(var(--head-h) + env(safe-area-inset-top,0px))}
+@media (min-width:900px){ .sec{padding-block:112px} }
+.band{background:var(--gradient);color:var(--white);position:relative;overflow:hidden}
+.eyebrow{display:inline-flex;align-items:center;gap:12px;font-size:13px;font-weight:600;color:var(--teal);text-transform:uppercase;letter-spacing:var(--track-caps);line-height:1.4}
+:root[lang="ar"] .eyebrow{font-size:15px;font-weight:700}
+.eyebrow .idx{font:600 13px/1 var(--font-lat);letter-spacing:.06em;padding:6px 10px;border-radius:var(--r-pill);border:1px solid var(--teal-200);color:var(--teal)}
+.band .eyebrow{color:var(--teal-200)}
+.band .eyebrow .idx{border-color:var(--border-on-brand);color:var(--white)}
+.sec-head{display:grid;gap:16px;max-width:720px;margin-bottom:40px;justify-items:start}
+.sec-head em{font-style:normal;color:var(--teal)}
+.band .sec-head em,.hero h1 em{font-style:normal;color:var(--white)}
+.lead{font-size:clamp(17px,2vw,20px);color:var(--ink-600);max-width:36em}
+.band .lead{color:var(--on-brand-muted)}
 
-/* Buttons: pill, 44px, verb first */
+/* Buttons: pill, verb first */
 .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:44px;padding:8px 22px;border-radius:var(--r-pill);font-weight:500;font-size:15px;line-height:1.2;text-decoration:none;
   border:1.5px solid transparent;transition:background var(--fast) var(--ease),border-color var(--fast) var(--ease),color var(--fast) var(--ease)}
 .btn i{font-size:18px}
@@ -81,117 +90,166 @@ img{display:block}
 .btn-ghost:hover{background:var(--teal-50)} .btn-ghost:active{background:var(--teal-100)}
 .btn-inverse{background:var(--white);color:var(--teal-deep)}
 .btn-inverse:hover{background:var(--teal-50)} .btn-inverse:active{background:var(--teal-100)}
+.btn-onbrand{border-color:var(--border-on-brand);color:var(--white)}
+.btn-onbrand:hover{background:var(--fill-on-brand-2);border-color:var(--white)}
 .btn-lg{min-height:52px;padding-inline:28px;font-size:16px}
 .icon-btn{display:inline-grid;place-items:center;width:44px;height:44px;border-radius:var(--r-pill);color:var(--teal);font-size:22px;transition:background var(--fast) var(--ease)}
 .icon-btn:hover{background:var(--teal-50)} .icon-btn:active{background:var(--teal-100)}
 
 .card{background:var(--white);border:1px solid var(--mist-200);border-radius:var(--r-lg);box-shadow:var(--shadow-1)}
+/* cards that answer the pointer: a soft teal tint follows it, the hairline turns teal, 2px lift */
+.sp{transition:opacity var(--slow) var(--ease) var(--d,0ms),transform var(--base) var(--ease),box-shadow var(--base) var(--ease),border-color var(--base) var(--ease)}
+@media (hover:hover){
+  .sp:hover{transform:translateY(-2px);box-shadow:var(--shadow-3);border-color:var(--teal-200);
+    background-image:radial-gradient(260px circle at var(--mx,50%) var(--my,50%),var(--teal-50),rgba(238,246,248,0) 72%)}
+}
 .icbox{display:grid;place-items:center;flex:none;width:48px;height:48px;border-radius:var(--r-md);background:var(--teal-50);color:var(--teal);font-size:24px}
 .badge{display:inline-flex;align-items:center;gap:6px;padding:5px 12px;border-radius:var(--r-pill);font-size:13px;font-weight:500;line-height:1.3;background:var(--teal-50);color:var(--teal-deep)}
 .badge i{font-size:15px}
+.glass{background:var(--fill-on-brand);border:1px solid var(--border-on-brand);border-radius:var(--r-xl);color:var(--white)}
 
-/* Header */
-.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:50;background:var(--white);border-bottom:1px solid var(--mist-200)}
-.top .wrap{display:flex;align-items:center;gap:12px;height:var(--head-h)}
-.top .logo{height:36px;width:auto}
-.top .sp{flex:1}
+/* Floating header */
+.top{position:sticky;top:calc(env(safe-area-inset-top,0px) + 10px);z-index:50;height:0}
+.top .bar{position:relative;overflow:hidden;display:flex;align-items:center;gap:8px;height:60px;padding-inline:20px 8px;background:var(--white);border:1px solid var(--mist-200);border-radius:var(--r-pill);box-shadow:var(--shadow-2)}
+.top .logo{height:34px;width:auto}
+.top .sp0{flex:1}
 .top .call{display:none}
 @media (min-width:900px){ .top .call{display:inline-flex} }
-.lang{display:inline-flex;padding:3px;border-radius:var(--r-pill);background:var(--mist-100);border:1px solid var(--mist-200)}
-.lang button{min-width:52px;height:36px;padding:0 14px;border-radius:var(--r-pill);font-size:14px;font-weight:500;color:var(--ink-600);letter-spacing:0;transition:background var(--base) var(--ease),color var(--base) var(--ease)}
+.lang{position:relative;display:inline-grid;grid-template-columns:1fr 1fr;padding:3px;border-radius:var(--r-pill);background:var(--mist-100);border:1px solid var(--mist-200)}
+.lang::before{content:"";position:absolute;top:3px;bottom:3px;left:3px;width:calc(50% - 3px);border-radius:var(--r-pill);background:var(--teal);transition:transform var(--slow) var(--ease)}
+:root[lang="ar"] .lang::before{transform:translateX(100%)}
+[dir="rtl"] .lang{direction:ltr}
+.lang button{position:relative;min-width:54px;height:38px;padding:0 14px;border-radius:var(--r-pill);font-size:14px;font-weight:500;color:var(--ink-600);letter-spacing:0;transition:color var(--base) var(--ease)}
 .lang button[lang="ar"]{font-family:var(--font-ar)} .lang button[lang="en"]{font-family:var(--font-lat)}
-.lang button[aria-pressed="true"]{background:var(--teal);color:var(--white)}
-.progress{position:absolute;inset-inline-start:0;bottom:-1px;height:2px;width:0;background:var(--teal)}
+.lang button[aria-pressed="true"]{color:var(--white)}
+.progress{position:absolute;inset-inline-start:0;bottom:0;height:3px;width:0;background:var(--teal)}
 
-/* Hero */
-.band{background:var(--gradient);color:var(--white);position:relative;overflow:hidden}
-.hero .wrap{padding-block:44px 28px;display:grid;gap:36px}
-@media (min-width:900px){ .hero .wrap{grid-template-columns:minmax(0,1.05fr) minmax(0,.95fr);gap:56px;padding-block:80px 40px;align-items:center} }
-.hero-copy{display:grid;gap:18px;justify-items:start;min-width:0}
-.hero .tagchip{display:inline-flex;align-items:center;gap:8px;padding:6px 14px;border-radius:var(--r-pill);border:1px solid var(--border-on-brand);font-size:13px;font-weight:500;text-transform:uppercase;letter-spacing:var(--track-caps)}
-:root[lang="ar"] .hero .tagchip{font-size:14px}
+/* Cover */
+.hero .wrap{padding-block:116px 12px;display:grid;gap:40px}
+@media (min-width:900px){ .hero .wrap{grid-template-columns:minmax(0,1.15fr) minmax(0,.85fr);gap:64px;padding-block:168px 24px;align-items:end} }
+.hero-copy{display:grid;gap:20px;justify-items:start;min-width:0}
+.tagchip{display:inline-flex;align-items:center;gap:10px;padding:7px 14px 7px 10px;border-radius:var(--r-pill);border:1px solid var(--border-on-brand);background:var(--fill-on-brand);font-size:13px;font-weight:500;text-transform:uppercase;letter-spacing:var(--track-caps)}
+[dir="rtl"] .tagchip{padding:7px 10px 7px 14px}
+:root[lang="ar"] .tagchip{font-size:14px}
+.tagchip .live{position:relative;width:8px;height:8px;border-radius:50%;background:var(--white)}
+.tagchip .live::after{content:"";position:absolute;inset:-5px;border-radius:50%;border:1.5px solid var(--white);opacity:0;animation:ping 2.4s var(--ease) infinite}
+@keyframes ping{0%{transform:scale(.4);opacity:.9}70%,100%{transform:scale(1.5);opacity:0}}
 .hero .co{font-size:15px;font-weight:500;color:var(--on-brand-muted)}
-.hero h1 em{color:var(--white)}
-.hero .lead{color:var(--on-brand-muted);max-width:34em}
+.hero .lead{max-width:32em}
 .chips{display:flex;flex-wrap:wrap;gap:10px}
 .chip{display:inline-flex;align-items:center;gap:8px;min-height:44px;padding:8px 16px;border-radius:var(--r-pill);font-size:15px;font-weight:500;line-height:1.2;transition:background var(--fast) var(--ease),border-color var(--fast) var(--ease)}
 .chip i{font-size:18px}
 .band .chip{border:1.5px solid var(--border-on-brand);color:var(--white)}
-.band .chip:hover{background:rgba(255,255,255,.14);border-color:var(--white)}
+.band .chip:hover{background:var(--fill-on-brand-2);border-color:var(--white)}
 .chip-light{border:1.5px solid var(--mist-400);color:var(--ink);background:var(--white)}
 .chip-light i{color:var(--teal)}
-@media (max-width:480px){ .step .chips{gap:8px} .step .chip{padding-inline:12px;font-size:14px} }
 .chip-light:hover{border-color:var(--teal);background:var(--teal-50)}
+@media (max-width:480px){ .step .chips{gap:8px} .step .chip{padding-inline:12px;font-size:14px} }
+.stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;width:100%;margin-top:12px}
+.stat{padding:16px 14px;border-radius:var(--r-lg);display:grid;gap:4px;align-content:start}
+.stat b{font:700 clamp(26px,5vw,40px)/1.1 var(--font-lat);letter-spacing:-.01em}
+:root[lang="ar"] .stat b.w{font-family:var(--font-ar);line-height:1.5;font-size:clamp(24px,4.4vw,34px)}
+.stat span{font-size:13px;line-height:1.45;color:var(--on-brand-muted);min-width:0}
+@media (max-width:620px){ .stats{grid-template-columns:minmax(0,1fr)} .stat{grid-template-columns:84px minmax(0,1fr);align-items:center;gap:12px;padding:12px 18px} .stat span{font-size:14px} }
+:root[lang="ar"] .stat span{line-height:1.7}
 
-.guide-card{color:var(--ink);padding:24px;border-radius:var(--r-xl);border:0;box-shadow:var(--shadow-3);display:grid;gap:18px;min-width:0}
-.guide-card h2{font-size:24px}
-.quick{display:none;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.guide{padding:24px;display:grid;gap:18px;min-width:0}
+.guide h2{font-size:clamp(22px,3vw,28px);line-height:1.2;letter-spacing:0;margin-top:6px}
+:root[lang="ar"] .guide h2{line-height:1.5}
+.quick{display:none;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
 @media (min-width:900px){ .quick{display:grid} }
-.quick a{display:grid;justify-items:center;gap:8px;padding:14px 8px;border-radius:var(--r-md);background:var(--teal-50);color:var(--teal-deep);text-decoration:none;font-size:14px;font-weight:500;text-align:center;line-height:1.3;transition:background var(--fast) var(--ease)}
-.quick a:hover{background:var(--teal-100)}
+.quick a{display:grid;justify-items:center;gap:8px;padding:14px 8px;border-radius:var(--r-md);background:var(--white);color:var(--teal-deep);text-decoration:none;font-size:14px;font-weight:500;text-align:center;line-height:1.3;transition:background var(--fast) var(--ease)}
+.quick a:hover{background:var(--teal-50)}
 .quick i{font-size:24px;color:var(--teal)}
 .toc{display:grid}
-.toc button{display:flex;align-items:center;gap:14px;width:100%;padding:12px 8px;border-radius:var(--r-md);text-align:start;font-weight:500;line-height:1.35;transition:background var(--fast) var(--ease)}
-.toc li+li button{border-top:1px solid var(--mist-200);border-start-start-radius:0;border-start-end-radius:0}
+.toc button{display:flex;align-items:center;gap:14px;width:100%;min-height:48px;padding:10px 10px;border-radius:var(--r-md);text-align:start;font-weight:500;line-height:1.35;transition:background var(--fast) var(--ease)}
+.toc li+li{border-top:1px solid var(--mist-200)}
 .toc button:hover{background:var(--teal-50)}
-.toc .n{color:var(--teal);font-weight:700;font-size:14px;min-width:24px}
+.toc .n{color:var(--teal);font-weight:600;font-size:13px;letter-spacing:.06em;min-width:24px}
 .toc .t{flex:1;min-width:0}
-.toc .c{color:var(--mist-500);font-size:16px}
+.toc .c{color:var(--mist-500);font-size:16px;transition:transform var(--base) var(--ease)}
+.toc button:hover .c{transform:translateX(3px)}
+[dir="rtl"] .toc button:hover .c{transform:scaleX(-1) translateX(3px)}
 .toc button[aria-current="true"]{color:var(--teal)}
 .toc button[aria-current="true"] .c{color:var(--teal)}
-.hint{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--ink-600)}
-.hint i{color:var(--teal);font-size:16px}
+.glass .toc li+li{border-color:var(--border-on-brand)}
+.glass .toc button:hover{background:var(--fill-on-brand-2)}
+.glass .toc .n{color:var(--teal-200)}
+.glass .toc .c{color:var(--on-brand-muted)}
+.glass .toc button[aria-current="true"]{color:var(--white)}
+.hint{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--on-brand-muted)}
+.hint i{font-size:16px}
 
 /* Pulse: official Tadawa geometry, drawn by script. Peak first, dip after, never mirrored. */
 .hb{display:block;position:relative;width:100%;overflow:hidden;direction:ltr;pointer-events:none}
 .hb svg{display:block;position:absolute;left:0;top:0;fill:none;stroke-linecap:round;stroke-linejoin:round}
 
 /* Welcome */
-.welcome{display:grid;gap:24px}
-@media (min-width:900px){ .welcome{grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:32px;align-items:start} }
-.note{background:var(--gradient);color:var(--white);border-radius:var(--r-lg);padding:28px;display:grid;gap:14px}
-.note .k{font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:var(--track-caps);color:var(--on-brand-muted)}
+.welcome{display:grid;gap:16px}
+@media (min-width:900px){ .welcome{grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:20px;align-items:stretch} }
+.note{background:var(--gradient);color:var(--white);border-radius:var(--r-xl);padding:32px;display:grid;gap:16px;align-content:center}
+.note .k{font-size:13px;font-weight:600;text-transform:uppercase;letter-spacing:var(--track-caps);color:var(--teal-200)}
 :root[lang="ar"] .note .k{font-size:15px}
-.note p{font-size:18px}
-.feats{display:grid;gap:12px}
+.note p{font-size:clamp(18px,2.2vw,22px);line-height:1.55}
+:root[lang="ar"] .note p{line-height:1.9}
+.feats{display:grid;gap:16px}
 @media (min-width:600px){ .feats{grid-template-columns:repeat(2,minmax(0,1fr))} }
-.feat{display:flex;gap:14px;padding:18px;align-items:flex-start}
-.feat h3{font-size:16px;line-height:1.4}
-.feat p{font-size:14px;color:var(--ink-600);margin-top:2px}
+@media (min-width:900px){ .feats{gap:20px} }
+.feat{display:grid;gap:14px;padding:24px;align-content:start}
+.feat h3{font-size:17px;line-height:1.4}
+.feat p{font-size:14px;color:var(--ink-600);margin-top:4px}
 
-/* What is */
-.what{display:grid;gap:36px;align-items:center}
-@media (min-width:900px){ .what{grid-template-columns:minmax(0,1fr) auto;gap:72px} .what .sec-head{margin-bottom:0} }
-.phone-fig{display:grid;justify-items:center;gap:14px}
-.phone{position:relative;width:min(272px,70vw);aspect-ratio:1179/2556;border-radius:40px;border:7px solid var(--ink);background:var(--ink);overflow:hidden;box-shadow:var(--shadow-3)}
+/* App stage */
+.what{display:grid;gap:44px;align-items:center}
+@media (min-width:900px){ .what{grid-template-columns:minmax(0,1fr) auto;gap:88px} .what .sec-head{margin-bottom:28px} }
+.callouts{display:grid;gap:10px;max-width:440px}
+.callout{display:flex;align-items:center;gap:14px;width:100%;padding:12px 16px;border-radius:var(--r-lg);border:1px solid var(--border-on-brand);background:var(--fill-on-brand);text-align:start;transition:background var(--fast) var(--ease),border-color var(--fast) var(--ease)}
+.callout:hover,.callout.hot{background:var(--fill-on-brand-2);border-color:var(--white)}
+.callout>i:first-child{display:grid;place-items:center;flex:none;width:44px;height:44px;border-radius:var(--r-md);background:var(--white);color:var(--teal);font-size:22px}
+.callout .tx{flex:1;min-width:0;display:grid}
+.callout .tx b{font-weight:600}
+.callout .tx span{font-size:13px;color:var(--on-brand-muted)}
+.callout>i:last-child{font-size:18px;color:var(--on-brand-muted)}
+.phone-fig{display:grid;justify-items:center;gap:18px;perspective:1100px}
+.phone{position:relative;width:min(280px,70vw);aspect-ratio:1179/2556;border-radius:42px;border:7px solid var(--ink);background:var(--ink);overflow:hidden;box-shadow:0 30px 60px rgba(10,52,61,.45);
+  transform:rotateY(var(--ry,0deg)) rotateX(var(--rx,0deg));transition:transform var(--slow) var(--ease)}
+@media (min-width:900px){ .phone{--ry:-9deg;--rx:3deg} [dir="rtl"] .phone{--ry:9deg} }
+@media (prefers-reduced-motion:reduce){ .phone{transform:none} }
 .phone img{width:100%;height:100%;object-fit:cover}
 .spot{position:absolute;top:21.2%;height:13.4%;width:28.8%;border-radius:16px;border:2px solid transparent;transition:border-color var(--fast) var(--ease),background var(--fast) var(--ease)}
-.spot::after{content:"";position:absolute;inset-inline-end:6px;top:6px;width:10px;height:10px;border-radius:50%;background:var(--teal);box-shadow:0 0 0 4px rgba(14,128,152,.22)}
-.spot:hover,.spot:focus-visible{border-color:var(--teal);background:rgba(14,128,152,.08)}
+.spot::before,.spot::after{content:"";position:absolute;inset-inline-end:6px;top:6px;width:10px;height:10px;border-radius:50%}
+.spot::before{background:var(--teal)}
+.spot::after{border:2px solid var(--teal);animation:ping 2.4s var(--ease) infinite}
+.spot[data-pos="2"]::after{animation-delay:.5s} .spot[data-pos="3"]::after{animation-delay:1s}
+.spot:hover,.spot:focus-visible,.spot.hot{border-color:var(--teal);background:rgba(14,128,152,.1)}
 .spot[data-pos="1"]{left:4.2%} .spot[data-pos="2"]{left:35.6%} .spot[data-pos="3"]{left:67%}
-.phone-fig figcaption{font-size:14px;color:var(--ink-600);text-align:center;max-width:300px}
-.phone-fig figcaption b{display:block;color:var(--ink);font-weight:500}
+.phone-fig figcaption{font-size:14px;color:var(--on-brand-muted);text-align:center;max-width:300px}
+@media (prefers-reduced-motion:reduce){ .spot::after,.tagchip .live::after{animation:none} }
 
 /* Steps */
-.start{display:grid;gap:24px}
-@media (min-width:900px){ .start{grid-template-columns:minmax(0,1.15fr) minmax(0,.85fr);gap:32px;align-items:start} }
-.steps{display:grid;gap:0}
-.step{display:grid;grid-template-columns:44px minmax(0,1fr);gap:16px;position:relative;padding-bottom:28px}
+.start{display:grid;gap:28px}
+@media (min-width:900px){ .start{grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr);gap:48px;align-items:start} }
+.steps{display:grid;position:relative}
+.rail{position:absolute;inset-inline-start:23px;top:24px;width:2px;height:0;background:var(--teal-100);border-radius:2px;overflow:hidden}
+.rail::after{content:"";position:absolute;inset:0;background:var(--teal);transform-origin:top;transform:scaleY(var(--p,1))}
+.step{display:grid;grid-template-columns:48px minmax(0,1fr);gap:18px;position:relative;padding-bottom:36px}
 .step:last-child{padding-bottom:0}
-.step::before{content:"";position:absolute;inset-inline-start:21px;top:44px;bottom:0;width:2px;background:var(--teal-100)}
-.step:last-child::before{display:none}
-.step .sn{display:grid;place-items:center;width:44px;height:44px;border-radius:50%;background:var(--teal);color:var(--white);font:700 18px/1 var(--font-lat)}
-.step .sb{display:grid;gap:8px;justify-items:start;padding-top:8px;min-width:0}
+.step .sn{position:relative;z-index:1;display:grid;place-items:center;width:48px;height:48px;border-radius:50%;background:var(--teal);color:var(--white);border:2px solid var(--teal);font:700 18px/1 var(--font-lat);
+  transition:background var(--slow) var(--ease),color var(--slow) var(--ease),border-color var(--slow) var(--ease)}
+.steps.live .step:not(.on) .sn{background:var(--white);color:var(--teal);border-color:var(--teal-200)}
+.step .sb{display:grid;gap:8px;justify-items:start;padding-top:9px;min-width:0}
+.step h3{font-size:clamp(20px,2.4vw,24px)}
 .step p{color:var(--ink-600)}
-.step .btn,.step .chips{margin-top:6px}
-.ins{padding:24px;display:grid;gap:16px}
+.step .btn,.step .chips{margin-top:8px}
+.ins{padding:28px;display:grid;gap:18px;border-radius:var(--r-xl)}
+@media (min-width:900px){ .ins{position:sticky;top:104px} }
 .ins-head{display:flex;gap:14px;align-items:center}
 .ins-head p{font-size:14px;color:var(--ink-600)}
 .checks{display:grid;gap:8px}
-.check{display:flex;align-items:center;gap:12px;padding:12px 14px;border-radius:var(--r-md);border:1.5px solid var(--mist-400);cursor:pointer;transition:border-color var(--fast) var(--ease),background var(--fast) var(--ease)}
+.check{display:flex;align-items:center;gap:12px;min-height:52px;padding:10px 14px;border-radius:var(--r-md);border:1.5px solid var(--mist-400);transition:border-color var(--fast) var(--ease),background var(--fast) var(--ease)}
 .check:hover{border-color:var(--mist-500)}
 .check input{position:absolute;opacity:0;width:1px;height:1px}
-.check .box{display:grid;place-items:center;flex:none;width:26px;height:26px;border-radius:50%;border:1.5px solid var(--mist-400);font:700 13px/1 var(--font-lat);color:var(--teal);transition:background var(--fast) var(--ease),border-color var(--fast) var(--ease)}
+.check .box{display:grid;place-items:center;flex:none;width:28px;height:28px;border-radius:50%;border:1.5px solid var(--mist-400);font:700 13px/1 var(--font-lat);color:var(--teal);transition:background var(--base) var(--ease),border-color var(--base) var(--ease)}
 .check .box i{display:none;font-size:15px;color:var(--white)}
 .check .lbl{flex:1;font-weight:500;min-width:0}
 .check .ic{color:var(--teal);font-size:20px}
@@ -200,68 +258,80 @@ img{display:block}
 .check:has(input:checked) .box span{display:none}
 .check:has(input:checked) .box i{display:block}
 .check:has(input:focus-visible){box-shadow:var(--focus)}
+.bar3{height:6px;border-radius:var(--r-pill);background:var(--mist-200);overflow:hidden}
+.bar3 i{display:block;height:100%;width:calc(var(--n,0) / 3 * 100%);background:var(--teal);border-radius:var(--r-pill);transition:width var(--slow) var(--ease)}
 .ins-foot{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;font-size:14px;color:var(--ink-600)}
 .meter{flex:none;display:inline-flex;align-items:center;gap:6px;font-weight:500;color:var(--teal-deep)}
 .meter.done{color:var(--success)}
 
 /* Why */
-.reasons{display:grid;gap:12px;grid-template-columns:repeat(2,minmax(0,1fr))}
-@media (min-width:900px){ .reasons{grid-template-columns:repeat(4,minmax(0,1fr));gap:16px} }
-.reason{padding:20px;display:grid;gap:10px;align-content:start;transition:transform var(--base) var(--ease),box-shadow var(--base) var(--ease)}
-.reason:hover{transform:translateY(-2px);box-shadow:var(--shadow-3)}
-.reason .rt{display:flex;align-items:center;justify-content:space-between}
-.reason .rn{font:700 14px/1 var(--font-lat);color:var(--teal-300)}
-.reason h3{font-size:17px}
+.reasons{display:grid;gap:16px;grid-template-columns:repeat(2,minmax(0,1fr))}
+@media (min-width:900px){ .reasons{grid-template-columns:repeat(4,minmax(0,1fr));gap:20px} }
+.reason{padding:22px;display:grid;gap:10px;align-content:start}
+@media (min-width:900px){ .reason{padding:28px;min-height:250px;align-content:end} .reason .rt{margin-bottom:auto} }
+.reason .rt{display:flex;align-items:flex-start;justify-content:space-between;padding-bottom:18px}
+.reason .rn{font:700 clamp(34px,5vw,52px)/1 var(--font-lat);color:var(--white);-webkit-text-stroke:1.5px var(--teal-200);letter-spacing:0}
+.reason h3{font-size:18px}
 .reason p{font-size:14px;color:var(--ink-600)}
-.promise .wrap{padding-block:56px 12px}
-.promise p{font-size:clamp(24px,4.4vw,40px);font-weight:700;line-height:var(--lh-head);letter-spacing:0;max-width:18em;text-wrap:balance}
+.promise .wrap{padding-block:72px 8px}
+@media (min-width:900px){ .promise .wrap{padding-block:112px 8px} }
+.promise p{font-size:clamp(28px,5.6vw,60px);font-weight:700;line-height:var(--lh-head);letter-spacing:var(--track-head);max-width:16em;text-wrap:balance}
+:root[lang="ar"] .promise p{line-height:1.55}
 
 /* Services */
-.tabs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px;padding:6px;border-radius:var(--r-lg);background:var(--mist-100);border:1px solid var(--mist-200)}
-.tab{display:grid;justify-items:center;gap:6px;padding:12px 6px;border-radius:18px;text-align:center;font-size:14px;font-weight:500;line-height:1.3;color:var(--ink-600);transition:background var(--base) var(--ease),color var(--base) var(--ease)}
-.tab i{font-size:24px;color:var(--teal)}
-.tab:hover{background:var(--white)}
-.tab[aria-selected="true"]{background:var(--teal);color:var(--white);box-shadow:var(--shadow-1)}
-.tab[aria-selected="true"] i{color:var(--white)}
-@media (min-width:600px){ .tab{grid-auto-flow:column;justify-content:center;align-items:center;gap:10px;font-size:16px;padding:14px} }
-.panel{margin-top:16px;padding:28px 24px;display:grid;gap:14px;justify-items:start}
-@media (min-width:900px){ .panel{padding:36px;grid-template-columns:auto minmax(0,1fr);column-gap:28px;align-items:start} .panel .icbox{grid-row:1 / span 4} }
-.panel .icbox{width:64px;height:64px;font-size:32px;border-radius:20px}
-.panel h3{font-size:24px}
+.tabs{position:relative;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px;padding:6px;border-radius:var(--r-xl);background:var(--mist-100);border:1px solid var(--mist-200)}
+.tabs .ind{position:absolute;top:6px;bottom:6px;inset-inline-start:6px;width:calc((100% - 24px) / 3);border-radius:26px;background:var(--teal);box-shadow:var(--shadow-2);transition:transform var(--slow) var(--ease)}
+.tab{position:relative;z-index:1;display:grid;justify-items:center;gap:6px;padding:14px 6px;border-radius:26px;text-align:center;font-size:14px;font-weight:500;line-height:1.3;color:var(--ink-600);transition:color var(--base) var(--ease)}
+.tab i{font-size:24px;color:var(--teal);transition:color var(--base) var(--ease)}
+.tab[aria-selected="true"],.tab[aria-selected="true"] i{color:var(--white)}
+@media (min-width:600px){ .tab{grid-auto-flow:column;justify-content:center;align-items:center;gap:10px;font-size:16px;padding:18px} }
+.panel{margin-top:16px;padding:28px 24px;display:grid;gap:14px;justify-items:start;border-radius:var(--r-xl)}
+.panel:not([hidden]){animation:rise var(--slow) var(--ease)}
+@keyframes rise{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+@media (min-width:900px){ .panel{padding:44px;grid-template-columns:auto minmax(0,1fr);column-gap:32px;align-items:start} .panel .icbox{grid-row:1 / span 4} }
+.panel .icbox{width:72px;height:72px;font-size:36px;border-radius:22px;background:var(--gradient);color:var(--white)}
+.panel h3{font-size:clamp(24px,3vw,32px)}
 .panel .en{display:none;font:500 14px/1.4 var(--font-lat);color:var(--ink-400);letter-spacing:.03em}
 :root[lang="ar"] .panel .en{display:block}
 .panel p{font-size:18px;color:var(--ink-600);max-width:38em}
-.after{margin-top:16px;display:flex;gap:14px;align-items:flex-start;padding:18px 20px;border-radius:var(--r-lg);background:var(--teal-50);color:var(--teal-deep);scroll-margin-top:calc(var(--head-h) + 24px)}
-.after i{font-size:24px;color:var(--teal);flex:none;margin-top:2px}
-.after p{font-weight:500}
+.flow{margin-top:16px;display:grid;gap:10px;scroll-margin-top:calc(var(--head-h) + 24px)}
+@media (min-width:760px){ .flow{grid-template-columns:repeat(4,minmax(0,1fr));gap:0} }
+.node{position:relative;display:flex;align-items:center;gap:12px;padding:14px 16px;font-weight:500;line-height:1.35;font-size:15px}
+.node i{display:grid;place-items:center;flex:none;width:40px;height:40px;border-radius:50%;background:var(--teal-50);color:var(--teal);font-size:20px;position:relative;z-index:1}
+@media (min-width:760px){
+  .node{flex-direction:column;align-items:flex-start;padding:0 16px 0 0} [dir="rtl"] .node{padding:0 0 0 16px}
+  .node::before{content:"";position:absolute;top:19px;inset-inline:40px 0;height:2px;background:var(--teal-100)}
+  .node:last-child::before{display:none}
+}
+.after{margin-top:20px;color:var(--ink-600);max-width:44em}
 
 /* Benefits */
-.benefits .wrap{padding-block:56px}
-@media (min-width:900px){ .benefits .wrap{padding-block:88px} }
-.benefits .eyebrow{color:var(--teal-200)}
-.benefits .sec-head em{color:var(--white)}
 .bens{display:grid;gap:16px}
-@media (min-width:760px){ .bens{grid-template-columns:repeat(2,minmax(0,1fr))} }
-.ben{color:var(--ink);padding:28px;border:0;display:grid;gap:10px;align-content:start;justify-items:start}
-.ben .big{font:700 clamp(56px,10vw,76px)/1 var(--font-lat);color:var(--teal);letter-spacing:-.01em}
-:root[lang="ar"] .ben .big.w{font-family:var(--font-ar);line-height:1.4}
-.ben h3{font-size:20px}
+@media (min-width:760px){ .bens{grid-template-columns:repeat(2,minmax(0,1fr));gap:20px} }
+.ben{color:var(--ink);padding:32px;border:0;border-radius:var(--r-xl);display:grid;gap:10px;align-content:start;justify-items:start;box-shadow:var(--shadow-3)}
+.ben .big{font:700 clamp(72px,13vw,128px)/1 var(--font-lat);color:var(--teal);letter-spacing:-.03em}
+:root[lang="ar"] .ben .big.w{font-family:var(--font-ar);line-height:1.35;letter-spacing:0;font-size:clamp(64px,11vw,108px)}
+.ben h3{font-size:clamp(20px,2.4vw,24px)}
 .ben p{color:var(--ink-600)}
 .ben .badge{margin-top:6px}
 
 /* Next step */
 .next{display:grid;gap:16px}
-@media (min-width:900px){ .next{grid-template-columns:repeat(2,minmax(0,1fr))} }
-.video{position:relative;overflow:hidden;background:var(--gradient);color:var(--white);border-radius:var(--r-lg);padding:28px;display:grid;gap:12px;justify-items:start;align-content:start;text-decoration:none;min-height:240px;transition:box-shadow var(--base) var(--ease),transform var(--base) var(--ease)}
+@media (min-width:900px){ .next{grid-template-columns:repeat(2,minmax(0,1fr));gap:20px} }
+.video{position:relative;overflow:hidden;background:var(--gradient);color:var(--white);border-radius:var(--r-xl);padding:32px;display:grid;gap:12px;justify-items:start;align-content:end;text-decoration:none;min-height:300px;transition:box-shadow var(--base) var(--ease),transform var(--base) var(--ease),opacity var(--slow) var(--ease) var(--d,0ms)}
 .video:hover{transform:translateY(-2px);box-shadow:var(--shadow-3)}
-.video .playb{display:grid;place-items:center;width:64px;height:64px;border-radius:50%;background:var(--white);color:var(--teal);font-size:28px;margin-bottom:8px}
+.video .playb{position:relative;display:grid;place-items:center;width:72px;height:72px;border-radius:50%;background:var(--white);color:var(--teal);font-size:30px;margin-bottom:auto}
+.video .playb::after{content:"";position:absolute;inset:-8px;border-radius:50%;border:1.5px solid var(--white);opacity:0;animation:ping 2.4s var(--ease) infinite}
+@media (prefers-reduced-motion:reduce){ .video .playb::after{animation:none} }
+.video h3{font-size:clamp(22px,2.6vw,28px)}
 .video p{color:var(--on-brand-muted)}
 .video .go{display:inline-flex;align-items:center;gap:8px;font-weight:500;margin-top:6px}
-.dl{padding:28px;display:grid;gap:12px;justify-items:start;align-content:start}
+.dl{padding:32px;display:grid;gap:12px;justify-items:start;align-content:end;border-radius:var(--r-xl)}
+.dl .icbox{margin-bottom:auto}
+.dl h3{font-size:clamp(22px,2.6vw,28px)}
 .dl p{color:var(--ink-600)}
 .dl .btn{margin-top:8px}
-.faq{grid-column:1 / -1;display:flex;align-items:center;gap:14px;padding:18px 20px;text-decoration:none;transition:border-color var(--fast) var(--ease),background var(--fast) var(--ease)}
-.faq:hover{border-color:var(--teal);background:var(--teal-50)}
+.faq{grid-column:1 / -1;display:flex;align-items:center;gap:14px;padding:20px 24px;text-decoration:none}
 .faq .tx{flex:1;min-width:0}
 .faq .tx b{display:block;font-weight:700}
 .faq .tx span{font-size:14px;color:var(--ink-600)}
@@ -269,65 +339,62 @@ img{display:block}
 
 /* Clinics */
 .clinics{display:grid;gap:16px}
-@media (min-width:760px){ .clinics{grid-template-columns:repeat(3,minmax(0,1fr))} }
-.clinic{padding:22px;display:grid;gap:14px;align-content:start}
+@media (min-width:760px){ .clinics{grid-template-columns:repeat(3,minmax(0,1fr));gap:20px} }
+.clinic{padding:24px;display:grid;gap:16px;align-content:start}
 .clinic .ch{display:flex;gap:14px;align-items:flex-start}
 .clinic h3{font-size:17px}
 .clinic .city{font-size:14px;color:var(--ink-600)}
 .telrow{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:6px 6px 6px 16px;border-radius:var(--r-md);background:var(--mist-100)}
 [dir="rtl"] .telrow{padding:6px 16px 6px 6px}
 .telrow .num{font-weight:500;font-size:17px;letter-spacing:.04em;user-select:all}
-.telrow .icon-btn{width:40px;height:40px;font-size:20px}
 .clinic .acts{display:flex;flex-wrap:wrap;gap:8px}
 .clinic .acts .btn{flex:1 1 auto;padding-inline:14px;font-size:14px}
 
 /* Footer */
-.foot .wrap{padding-block:56px 8px;display:grid;gap:28px}
-@media (min-width:900px){ .foot .wrap{grid-template-columns:minmax(0,1fr) auto;align-items:center;padding-block:72px 8px} }
-.foot .logo{height:64px;width:auto}
-.foot .contact{display:grid;gap:10px;justify-items:start}
+.foot .wrap{padding-block:72px 8px;display:grid;gap:32px}
+@media (min-width:900px){ .foot .wrap{grid-template-columns:minmax(0,1fr) auto;align-items:end;padding-block:112px 8px} }
+.foot .logo{height:72px;width:auto}
+.foot .contact{display:grid;gap:12px;justify-items:start}
 .foot .who{font-size:15px;color:var(--on-brand-muted)}
-.foot .big{font:700 clamp(34px,7vw,48px)/1.1 var(--font-lat);letter-spacing:.02em;user-select:all}
-.foot .row{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-top:6px}
-.foot .btn-onbrand{border-color:var(--border-on-brand);color:var(--white)}
-.foot .btn-onbrand:hover{background:rgba(255,255,255,.14);border-color:var(--white)}
-.foot .url{font:400 14px/1.5 var(--font-lat);letter-spacing:.32em;color:var(--white);text-decoration:none;direction:ltr;margin-top:10px}
+.foot .big{font:700 clamp(40px,9.5vw,96px)/1.05 var(--font-lat);letter-spacing:-.01em;user-select:all}
+.foot .row{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-top:8px}
+.foot .url{font:400 14px/1.5 var(--font-lat);letter-spacing:.32em;color:var(--white);text-decoration:none;direction:ltr;margin-top:12px}
 .foot .url:hover{text-decoration:underline}
-.foot .hb{margin-top:8px}
+.foot .hb{margin-top:16px}
 
-/* Dock (phones) */
-.dock{position:fixed;inset:auto 0 0 0;z-index:40;background:var(--white);border-top:1px solid var(--mist-200);display:grid;grid-template-columns:repeat(3,minmax(0,1fr));
-  padding:6px max(10px,env(safe-area-inset-right,0px)) calc(6px + env(safe-area-inset-bottom,0px)) max(10px,env(safe-area-inset-left,0px))}
-.dock a{display:grid;justify-items:center;gap:3px;padding:7px 4px;border-radius:var(--r-md);text-decoration:none;font-size:12px;font-weight:500;line-height:1.3;color:var(--ink);text-align:center}
+/* Floating dock (phones) */
+.dock{position:fixed;z-index:40;bottom:calc(10px + env(safe-area-inset-bottom,0px));left:max(12px,env(safe-area-inset-left,0px));right:max(12px,env(safe-area-inset-right,0px));
+  background:var(--white);border:1px solid var(--mist-200);border-radius:var(--r-lg);box-shadow:var(--shadow-3);display:grid;grid-template-columns:repeat(3,minmax(0,1fr));padding:6px}
+.dock a{display:grid;justify-items:center;gap:3px;padding:8px 4px;border-radius:18px;text-decoration:none;font-size:12px;font-weight:500;line-height:1.3;color:var(--ink);text-align:center}
 :root[lang="ar"] .dock a{font-size:13px}
 .dock a i{font-size:22px;color:var(--teal)}
-.dock a:active{background:var(--teal-50)}
-.dock-space{height:72px}
+.dock a.main{background:var(--teal);color:var(--white)} .dock a.main i{color:var(--white)}
+.dock a:active{background:var(--teal-50)} .dock a.main:active{background:var(--teal-deep)}
+.dock-space{height:96px}
 @media (min-width:900px){ .dock,.dock-space{display:none} }
 
 /* Contents sheet */
 dialog.sheet{border:0;padding:0;margin:0;background:var(--white);color:var(--ink);width:min(420px,100vw);max-width:100vw;height:100%;max-height:100%;inset-block:0;inset-inline:auto 0;position:fixed;
   border-start-start-radius:var(--r-xl);border-end-start-radius:var(--r-xl);box-shadow:var(--shadow-3)}
-dialog.sheet::backdrop{background:rgba(35,31,32,.42)}
-dialog.sheet[open]{animation:sheet var(--slow) var(--ease)}
-@keyframes sheet{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+dialog.sheet::backdrop{background:rgba(10,52,61,.5)}
+dialog.sheet[open]{animation:rise var(--slow) var(--ease)}
 .sheet-in{display:grid;gap:14px;align-content:start;height:100%;overflow:auto;padding:calc(18px + env(safe-area-inset-top,0px)) 20px calc(24px + env(safe-area-inset-bottom,0px))}
 .sheet-top{display:flex;align-items:center;justify-content:space-between}
-.sheet-top h2{font-size:22px}
+.sheet-top h2{font-size:24px;letter-spacing:0}
 
-.toast{position:fixed;left:50%;bottom:calc(92px + env(safe-area-inset-bottom,0px));transform:translate(-50%,8px);z-index:70;background:var(--ink-800);color:var(--white);padding:10px 18px;border-radius:var(--r-md);font-size:14px;font-weight:500;
+.toast{position:fixed;left:50%;bottom:calc(104px + env(safe-area-inset-bottom,0px));transform:translate(-50%,8px);z-index:70;background:var(--ink-800);color:var(--white);padding:10px 18px;border-radius:var(--r-pill);font-size:14px;font-weight:500;
   opacity:0;pointer-events:none;transition:opacity var(--base) var(--ease),transform var(--base) var(--ease);display:inline-flex;gap:8px;align-items:center;max-width:calc(100vw - 32px)}
 .toast.on{opacity:1;transform:translate(-50%,0)}
 @media (min-width:900px){ .toast{bottom:32px} }
 
-.rv{transition:opacity var(--slow) var(--ease),transform var(--slow) var(--ease)}
+.rv{transition:opacity var(--slow) var(--ease) var(--d,0ms),transform var(--slow) var(--ease) var(--d,0ms)}
 .rv-wait{opacity:0;transform:translateY(8px)}
 </style>
 <!--BODY-->
 <header class="top">
-  <div class="wrap">
-    <img class="logo" src="{{LOGO_COLOR}}" alt="TADAWA تداوىٰ" width="74" height="36">
-    <span class="sp"></span>
+  <div class="wrap"><div class="bar">
+    <img class="logo" src="{{LOGO_COLOR}}" alt="TADAWA تداوىٰ" width="70" height="34">
+    <span class="sp0"></span>
     <a class="btn btn-primary call" href="tel:+962793226000"><i class="ph-fill ph-phone"></i><span data-t="callNow">Call us now</span></a>
     <div class="lang" role="group" aria-label="Language / اللغة">
       <button type="button" lang="en" data-lang="en" aria-pressed="true">EN</button>
@@ -335,14 +402,14 @@ dialog.sheet[open]{animation:sheet var(--slow) var(--ease)}
     </div>
     <button type="button" class="icon-btn" id="openToc" aria-label="Contents" data-t-aria="contents"><i class="ph ph-list"></i></button>
     <span class="progress" id="progress"></span>
-  </div>
+  </div></div>
 </header>
 
 <main>
 <section class="band hero" id="top">
   <div class="wrap">
     <div class="hero-copy">
-      <span class="tagchip" data-t="heroTag">Telemedicine guide</span>
+      <span class="tagchip"><span class="live"></span><span data-t="heroTag">Telemedicine guide</span></span>
       <span class="co" data-t="heroCo">TADAWA Healthcare</span>
       <h1 data-t="heroH1">Your personal doctor, wherever you are</h1>
       <p class="lead" data-t="heroLead">A simple guide to using TADAWA telemedicine services, from your first consultation to follow-up and referral when you need it.</p>
@@ -351,8 +418,13 @@ dialog.sheet[open]{animation:sheet var(--slow) var(--ease)}
         <button type="button" class="chip" data-svc="remote"><i class="ph-fill ph-video-camera"></i><span data-t="svcRemote">Remote visit</span></button>
         <button type="button" class="chip" data-svc="clinic"><i class="ph-fill ph-hospital"></i><span data-t="svcClinic">Clinic visit</span></button>
       </div>
+      <div class="stats">
+        <div class="stat glass"><b>0%</b><span data-t="st1">Co-payment on telemedicine consultations</span></div>
+        <div class="stat glass"><b class="w" data-t="b2big">Free</b><span data-t="st2">Medical referrals to a specialist</span></div>
+        <div class="stat glass"><b>3</b><span data-t="st3">Clinics in Amman, Al Tafileh and Irbid</span></div>
+      </div>
     </div>
-    <div class="card guide-card">
+    <div class="glass guide">
       <div>
         <span class="eyebrow" data-t="tocEyebrow">In this guide</span>
         <h2 data-t="tocH">Everything you need, right here</h2>
@@ -375,13 +447,13 @@ dialog.sheet[open]{animation:sheet var(--slow) var(--ease)}
       <p class="hint"><i class="ph-fill ph-hand-tap"></i><span data-t="tocHint">Tap any title to jump straight to it</span></p>
     </div>
   </div>
-  <div class="hb" data-peak=".7" data-peak-rtl=".3" data-s=".42" data-s-lg=".62" data-tone="white"></div>
+  <div class="hb" data-peak=".62" data-peak-rtl=".38" data-s=".5" data-s-lg=".95" data-tone="white"></div>
 </section>
 
 <section class="sec" id="welcome">
   <div class="wrap">
     <div class="sec-head rv">
-      <span class="eyebrow" data-t="wEyebrow">Welcome</span>
+      <span class="eyebrow"><span class="idx">01</span><span data-t="wEyebrow">Welcome</span></span>
       <h2 data-t="wH">Welcome to <em>TADAWA</em></h2>
     </div>
     <div class="welcome">
@@ -390,21 +462,28 @@ dialog.sheet[open]{animation:sheet var(--slow) var(--ease)}
         <p data-t="wNote">We are happy to have you with us, and we welcome you to the TADAWA primary healthcare system. You are part of the family now, so your health and wellbeing come first. We are here to give you care that is complete, comfortable and trusted.</p>
       </div>
       <ul class="feats">
-        <li class="card feat rv"><span class="icbox"><i class="ph-fill ph-stethoscope"></i></span><div><h3 data-t="f1h">Care led by specialist doctors</h3><p data-t="f1p">Family medicine specialists with you at every step</p></div></li>
-        <li class="card feat rv"><span class="icbox"><i class="ph-fill ph-path"></i></span><div><h3 data-t="f2h">An organized, complete care journey</h3><p data-t="f2p">From consultation to follow-up and referral</p></div></li>
-        <li class="card feat rv"><span class="icbox"><i class="ph-fill ph-lightning"></i></span><div><h3 data-t="f3h">Faster consultations, no long waits</h3><p data-t="f3p">Talk to a doctor at the tap of a button</p></div></li>
-        <li class="card feat rv"><span class="icbox"><i class="ph-fill ph-device-mobile"></i></span><div><h3 data-t="f4h">An easy digital service</h3><p data-t="f4p">Everything in one app</p></div></li>
+        <li class="card feat sp rv"><span class="icbox"><i class="ph-fill ph-stethoscope"></i></span><div><h3 data-t="f1h">Care led by specialist doctors</h3><p data-t="f1p">Family medicine specialists with you at every step</p></div></li>
+        <li class="card feat sp rv"><span class="icbox"><i class="ph-fill ph-path"></i></span><div><h3 data-t="f2h">An organized, complete care journey</h3><p data-t="f2p">From consultation to follow-up and referral</p></div></li>
+        <li class="card feat sp rv"><span class="icbox"><i class="ph-fill ph-lightning"></i></span><div><h3 data-t="f3h">Faster consultations, no long waits</h3><p data-t="f3p">Talk to a doctor at the tap of a button</p></div></li>
+        <li class="card feat sp rv"><span class="icbox"><i class="ph-fill ph-device-mobile"></i></span><div><h3 data-t="f4h">An easy digital service</h3><p data-t="f4p">Everything in one app</p></div></li>
       </ul>
     </div>
   </div>
 </section>
 
-<section class="sec" id="what">
+<section class="sec band" id="what">
   <div class="wrap what">
-    <div class="sec-head rv">
-      <span class="eyebrow" data-t="qEyebrow">Get to know us</span>
-      <h2 data-t="qH">What is the <em>TADAWA</em> system?</h2>
-      <p class="lead" data-t="qLead">A modern primary healthcare platform built on telemedicine. It brings you fast, high-quality medical consultations wherever you are, and saves you the time and the wait of a traditional clinic.</p>
+    <div>
+      <div class="sec-head rv">
+        <span class="eyebrow"><span class="idx">02</span><span data-t="qEyebrow">Get to know us</span></span>
+        <h2 data-t="qH">What is the <em>TADAWA</em> system?</h2>
+        <p class="lead" data-t="qLead">A modern primary healthcare platform built on telemedicine. It brings you fast, high-quality medical consultations wherever you are, and saves you the time and the wait of a traditional clinic.</p>
+      </div>
+      <div class="callouts rv">
+        <button type="button" class="callout" data-svc="now"><i class="ph-fill ph-phone"></i><span class="tx"><b data-t="svcNow">Treat Me Now</b><span data-t="p1tag">Urgent case</span></span><i class="ph ph-caret-right flip"></i></button>
+        <button type="button" class="callout" data-svc="remote"><i class="ph-fill ph-video-camera"></i><span class="tx"><b data-t="svcRemote">Remote visit</b><span data-t="p2tag">On your schedule</span></span><i class="ph ph-caret-right flip"></i></button>
+        <button type="button" class="callout" data-svc="clinic"><i class="ph-fill ph-hospital"></i><span class="tx"><b data-t="svcClinic">Clinic visit</b><span data-t="p3tag">Physical examination</span></span><i class="ph ph-caret-right flip"></i></button>
+      </div>
     </div>
     <figure class="phone-fig rv">
       <div class="phone">
@@ -413,7 +492,7 @@ dialog.sheet[open]{animation:sheet var(--slow) var(--ease)}
         <button type="button" class="spot" data-pos="2" data-svc="clinic" aria-label="Clinic visit"></button>
         <button type="button" class="spot" data-pos="3" data-svc="remote" aria-label="Remote visit"></button>
       </div>
-      <figcaption><b data-t="shotCap">The TADAWA app home screen</b><span data-t="shotHint">Tap a service on the screen to see how it works</span></figcaption>
+      <figcaption><span data-t="shotCap">The TADAWA app home screen</span>. <span data-t="shotHint">Tap a service on the screen to see how it works</span></figcaption>
     </figure>
   </div>
 </section>
@@ -421,12 +500,13 @@ dialog.sheet[open]{animation:sheet var(--slow) var(--ease)}
 <section class="sec" id="start">
   <div class="wrap">
     <div class="sec-head rv">
-      <span class="eyebrow" data-t="sEyebrow">Step by step</span>
+      <span class="eyebrow"><span class="idx">03</span><span data-t="sEyebrow">Step by step</span></span>
       <h2 data-t="sH">How do you <em>get started?</em></h2>
     </div>
     <div class="start">
-      <ol class="steps">
-        <li class="step rv"><span class="sn">1</span><div class="sb"><h3 data-t="s1h">Account activation</h3><p data-t="s1p">Your employer activates the employee accounts.</p></div></li>
+      <ol class="steps" id="steps">
+        <li class="rail" aria-hidden="true"></li>
+        <li class="step on rv"><span class="sn">1</span><div class="sb"><h3 data-t="s1h">Account activation</h3><p data-t="s1p">Your employer activates the employee accounts.</p></div></li>
         <li class="step rv"><span class="sn">2</span><div class="sb"><h3 data-t="s2h">Download the app and create your medical file</h3><p data-t="s2p">Download the TADAWA app and set up your medical file.</p>
           <a class="btn btn-primary" href="https://qrfy.io/p/BxlzX9Y87q" target="_blank" rel="noopener"><i class="ph-fill ph-download-simple"></i><span data-t="dlApp">Download the app</span></a></div></li>
         <li class="step rv"><span class="sn">3</span><div class="sb"><h3 data-t="s3h">Use the service that fits your case</h3>
@@ -447,6 +527,7 @@ dialog.sheet[open]{animation:sheet var(--slow) var(--ease)}
           <label class="check"><input type="checkbox" id="ins-2"><span class="box"><span>2</span><i class="ph ph-check"></i></span><span class="lbl" data-t="i2">Tap Settings</span><i class="ph-fill ph-gear ic"></i></label>
           <label class="check"><input type="checkbox" id="ins-3"><span class="box"><span>3</span><i class="ph ph-check"></i></span><span class="lbl" data-t="i3">Choose Insurance information</span><i class="ph-fill ph-shield-check ic"></i></label>
         </div>
+        <div class="bar3" id="bar3" aria-hidden="true"><i></i></div>
         <div class="ins-foot">
           <span data-t="iNote">Add your insurance details to activate every service in the TADAWA app.</span>
           <span class="meter" id="meter" aria-live="polite"></span>
@@ -456,35 +537,36 @@ dialog.sheet[open]{animation:sheet var(--slow) var(--ease)}
   </div>
 </section>
 
-<section class="sec" id="why">
+<section class="sec" id="why" style="padding-top:0">
   <div class="wrap">
     <div class="sec-head rv">
-      <span class="eyebrow" data-t="yEyebrow">Why TADAWA?</span>
+      <span class="eyebrow"><span class="idx">04</span><span data-t="yEyebrow">Why TADAWA?</span></span>
       <h2 data-t="yH">Why TADAWA is <em>your best choice</em></h2>
       <p class="lead" data-t="yLead">Four reasons that make your care easier and closer.</p>
     </div>
     <ul class="reasons">
-      <li class="card reason rv"><div class="rt"><span class="icbox"><i class="ph-fill ph-medal"></i></span><span class="rn">01</span></div><h3 data-t="y1h">Top doctors</h3><p data-t="y1p">Care from family medicine specialists</p></li>
-      <li class="card reason rv"><div class="rt"><span class="icbox"><i class="ph-fill ph-clock"></i></span><span class="rn">02</span></div><h3 data-t="y2h">Time saved</h3><p data-t="y2p">Goodbye to long waits in clinics</p></li>
-      <li class="card reason rv"><div class="rt"><span class="icbox"><i class="ph-fill ph-path"></i></span><span class="rn">03</span></div><h3 data-t="y3h">A complete journey</h3><p data-t="y3p">From diagnosis and follow-up to recovery</p></li>
-      <li class="card reason rv"><div class="rt"><span class="icbox"><i class="ph-fill ph-hand-heart"></i></span><span class="rn">04</span></div><h3 data-t="y4h">Comfortable care</h3><p data-t="y4p">Medical consultations wherever you are</p></li>
+      <li class="card reason sp rv"><div class="rt"><span class="icbox"><i class="ph-fill ph-medal"></i></span><span class="rn" aria-hidden="true">01</span></div><h3 data-t="y1h">Top doctors</h3><p data-t="y1p">Care from family medicine specialists</p></li>
+      <li class="card reason sp rv"><div class="rt"><span class="icbox"><i class="ph-fill ph-clock"></i></span><span class="rn" aria-hidden="true">02</span></div><h3 data-t="y2h">Time saved</h3><p data-t="y2p">Goodbye to long waits in clinics</p></li>
+      <li class="card reason sp rv"><div class="rt"><span class="icbox"><i class="ph-fill ph-path"></i></span><span class="rn" aria-hidden="true">03</span></div><h3 data-t="y3h">A complete journey</h3><p data-t="y3p">From diagnosis and follow-up to recovery</p></li>
+      <li class="card reason sp rv"><div class="rt"><span class="icbox"><i class="ph-fill ph-hand-heart"></i></span><span class="rn" aria-hidden="true">04</span></div><h3 data-t="y4h">Comfortable care</h3><p data-t="y4p">Medical consultations wherever you are</p></li>
     </ul>
   </div>
 </section>
 
 <section class="band promise" aria-label="TADAWA">
   <div class="wrap"><p data-t="promise">TADAWA… healthcare that is closer, smarter and more efficient</p></div>
-  <div class="hb" data-peak=".76" data-peak-rtl=".24" data-s=".36" data-s-lg=".5" data-tone="white"></div>
+  <div class="hb" data-peak=".76" data-peak-rtl=".24" data-s=".4" data-s-lg=".7" data-tone="white"></div>
 </section>
 
 <section class="sec" id="services">
   <div class="wrap">
     <div class="sec-head rv">
-      <span class="eyebrow" data-t="vEyebrow">Family doctor services</span>
+      <span class="eyebrow"><span class="idx">05</span><span data-t="vEyebrow">Family doctor services</span></span>
       <h2 data-t="vH">Your care <em>journey with us</em></h2>
       <p class="lead" data-t="vLead">You start with primary care through the TADAWA app, then we handle each case according to its medical need.</p>
     </div>
     <div class="tabs rv" role="tablist" aria-label="Family doctor services" data-t-aria="vEyebrow">
+      <span class="ind" id="ind" aria-hidden="true"></span>
       <button type="button" class="tab" role="tab" id="tab-now" aria-controls="panel-now" aria-selected="true" data-tab="now"><i class="ph-fill ph-phone"></i><span data-t="svcNow">Treat Me Now</span></button>
       <button type="button" class="tab" role="tab" id="tab-remote" aria-controls="panel-remote" aria-selected="false" tabindex="-1" data-tab="remote"><i class="ph-fill ph-video-camera"></i><span data-t="svcRemote">Remote visit</span></button>
       <button type="button" class="tab" role="tab" id="tab-clinic" aria-controls="panel-clinic" aria-selected="false" tabindex="-1" data-tab="clinic"><i class="ph-fill ph-hospital"></i><span data-t="svcClinic">Clinic visit</span></button>
@@ -508,14 +590,20 @@ dialog.sheet[open]{animation:sheet var(--slow) var(--ease)}
       <p data-t="p3">For cases that need a physical examination, visit one of the TADAWA clinics and continue your treatment with the doctor in person.</p>
       <button type="button" class="btn btn-secondary" data-go="clinics"><i class="ph-fill ph-map-pin"></i><span data-t="seeClinics">See clinic locations</span></button>
     </div>
-    <div class="after rv" id="after"><i class="ph-fill ph-arrow-bend-up-right flip"></i><p data-t="after">And after that: ongoing follow-up with your doctor, and referral to subspecialties when needed.</p></div>
+    <ol class="flow rv" id="after">
+      <li class="node"><i class="ph-fill ph-device-mobile"></i><span data-t="n1">Primary care in the app</span></li>
+      <li class="node"><i class="ph-fill ph-stethoscope"></i><span data-t="n2">The service that fits your case</span></li>
+      <li class="node"><i class="ph-fill ph-calendar-check"></i><span data-t="n3">Ongoing follow-up with your doctor</span></li>
+      <li class="node"><i class="ph-fill ph-arrow-bend-up-right flip"></i><span data-t="n4">Referral to subspecialties when needed</span></li>
+    </ol>
+    <p class="after rv" data-t="after">And after that: ongoing follow-up with your doctor, and referral to subspecialties when needed.</p>
   </div>
 </section>
 
-<section class="band benefits" id="benefits" style="scroll-margin-top:calc(var(--head-h) + env(safe-area-inset-top,0px))">
+<section class="sec band" id="benefits">
   <div class="wrap">
     <div class="sec-head rv">
-      <span class="eyebrow" data-t="bEyebrow">Just for you</span>
+      <span class="eyebrow"><span class="idx">06</span><span data-t="bEyebrow">Just for you</span></span>
       <h2 data-t="bH">Extra benefits with TADAWA services</h2>
     </div>
     <div class="bens">
@@ -539,7 +627,7 @@ dialog.sheet[open]{animation:sheet var(--slow) var(--ease)}
 <section class="sec" id="next">
   <div class="wrap">
     <div class="sec-head rv">
-      <span class="eyebrow" data-t="nEyebrow">Next step</span>
+      <span class="eyebrow"><span class="idx">07</span><span data-t="nEyebrow">Next step</span></span>
       <h2 data-t="nH">Start your health <em>journey now</em></h2>
     </div>
     <div class="next">
@@ -549,13 +637,13 @@ dialog.sheet[open]{animation:sheet var(--slow) var(--ease)}
         <p data-t="n1p">See, step by step, the new way healthcare services reach you through the TADAWA platform.</p>
         <span class="go"><span data-t="watchVideo">Watch the video</span><i class="ph ph-arrow-up-right flip"></i></span>
       </a>
-      <div class="card dl rv">
+      <div class="card dl sp rv">
         <span class="icbox"><i class="ph-fill ph-device-mobile"></i></span>
         <h3 data-t="dlApp">Download the app</h3>
         <p data-t="n2p">Download the TADAWA app to create your medical file and be ready to receive care.</p>
         <a class="btn btn-primary btn-lg" href="https://qrfy.io/p/BxlzX9Y87q" target="_blank" rel="noopener"><i class="ph-fill ph-download-simple"></i><span data-t="dlApp">Download the app</span></a>
       </div>
-      <a class="card faq rv" href="https://prodtadawawebsite.d3nm6bcwrtfsx6.amplifyapp.com/faqs/" target="_blank" rel="noopener">
+      <a class="card faq sp rv" href="https://prodtadawawebsite.d3nm6bcwrtfsx6.amplifyapp.com/faqs/" target="_blank" rel="noopener">
         <span class="icbox"><i class="ph-fill ph-question"></i></span>
         <span class="tx"><b data-t="faqH">Frequently asked questions</b><span data-t="faqP">Quick answers to common questions</span></span>
         <i class="ph ph-arrow-up-right flip"></i>
@@ -567,12 +655,12 @@ dialog.sheet[open]{animation:sheet var(--slow) var(--ease)}
 <section class="sec" id="clinics" style="padding-top:0">
   <div class="wrap">
     <div class="sec-head rv">
-      <span class="eyebrow" data-t="cEyebrow">Visit us</span>
+      <span class="eyebrow"><span class="idx">08</span><span data-t="cEyebrow">Visit us</span></span>
       <h2 data-t="cH">Clinic <em>locations</em></h2>
       <p class="lead" data-t="cLead">Visit one of our clinics for in-person care.</p>
     </div>
     <div class="clinics">
-      <div class="card clinic rv">
+      <div class="card clinic sp rv">
         <div class="ch"><span class="icbox"><i class="ph-fill ph-map-pin"></i></span><div><h3 data-t="c1h">TADAWA Clinic, Khalidi</h3><span class="city" data-t="c1c">Amman</span></div></div>
         <div class="telrow"><span class="num">079 073 0275</span><button type="button" class="icon-btn" data-copy="079 073 0275" aria-label="Copy number" data-t-aria="copyNum"><i class="ph ph-copy"></i></button></div>
         <div class="acts">
@@ -580,7 +668,7 @@ dialog.sheet[open]{animation:sheet var(--slow) var(--ease)}
           <a class="btn btn-ghost" target="_blank" rel="noopener" href="https://www.google.com/maps/place/Tadawa+Healthcare/@31.9497819,35.906163,739m/data=!3m2!1e3!4b1!4m6!3m5!1s0x151ca1a901ba8c4d:0xc83fd66b36885abd!8m2!3d31.9497819!4d35.906163!16s%2Fg%2F11z3b7nbvb"><i class="ph-fill ph-map-trifold"></i><span data-t="openMap">Open the map</span></a>
         </div>
       </div>
-      <div class="card clinic rv">
+      <div class="card clinic sp rv">
         <div class="ch"><span class="icbox"><i class="ph-fill ph-map-pin"></i></span><div><h3 data-t="c2h">TADAWA Medical Center</h3><span class="city" data-t="c2c">Al Tafileh</span></div></div>
         <div class="telrow"><span class="num">079 338 1119</span><button type="button" class="icon-btn" data-copy="079 338 1119" aria-label="Copy number" data-t-aria="copyNum"><i class="ph ph-copy"></i></button></div>
         <div class="acts">
@@ -588,7 +676,7 @@ dialog.sheet[open]{animation:sheet var(--slow) var(--ease)}
           <a class="btn btn-ghost" target="_blank" rel="noopener" href="https://www.google.com/maps/place/Tadawa+Medical+Center+-+%D9%85%D8%B1%D9%83%D8%B2+%D8%AA%D8%AF%D9%88%D8%A7%D9%89+%D8%A7%D9%84%D8%B7%D8%A8%D9%8A%E2%80%AD/@30.8427129,35.6452999,17z/data=!3m1!4b1!4m6!3m5!1s0x150395ae6ad2dec9:0x348797266d71f829!8m2!3d30.8427129!4d35.6478802!16s/g/11zblm53fh"><i class="ph-fill ph-map-trifold"></i><span data-t="openMap">Open the map</span></a>
         </div>
       </div>
-      <div class="card clinic rv">
+      <div class="card clinic sp rv">
         <div class="ch"><span class="icbox"><i class="ph-fill ph-map-pin"></i></span><div><h3 data-t="c3h">TADAWA Medical Clinic</h3><span class="city" data-t="c3c">Irbid</span></div></div>
         <div class="telrow"><span class="num">079 010 7082</span><button type="button" class="icon-btn" data-copy="079 010 7082" aria-label="Copy number" data-t-aria="copyNum"><i class="ph ph-copy"></i></button></div>
         <div class="acts">
@@ -612,15 +700,15 @@ dialog.sheet[open]{animation:sheet var(--slow) var(--ease)}
       </div>
       <a class="url" href="https://www.tadawa.com/" target="_blank" rel="noopener">www.tadawa.com</a>
     </div>
-    <img class="logo" src="{{LOGO_WHITE}}" alt="TADAWA تداوىٰ" width="131" height="64">
+    <img class="logo" src="{{LOGO_WHITE}}" alt="TADAWA تداوىٰ" width="148" height="72">
   </div>
-  <div class="hb" data-peak=".3" data-peak-rtl=".3" data-s=".36" data-s-lg=".5" data-tone="white"></div>
+  <div class="hb" data-peak=".3" data-peak-rtl=".3" data-s=".4" data-s-lg=".7" data-tone="white"></div>
   <div class="dock-space"></div>
 </footer>
 
 <nav class="dock" aria-label="Quick actions" data-t-aria="quick">
   <a href="tel:+962793226000"><i class="ph-fill ph-phone"></i><span data-t="callNow">Call us now</span></a>
-  <a href="https://qrfy.io/p/BxlzX9Y87q" target="_blank" rel="noopener"><i class="ph-fill ph-download-simple"></i><span data-t="getApp">Get the app</span></a>
+  <a class="main" href="https://qrfy.io/p/BxlzX9Y87q" target="_blank" rel="noopener"><i class="ph-fill ph-download-simple"></i><span data-t="getApp">Get the app</span></a>
   <a href="https://www.youtube.com/watch?v=W5jCTL_hdlc" target="_blank" rel="noopener"><i class="ph-fill ph-play"></i><span data-t="watchVideo">Watch the video</span></a>
 </nav>
 
@@ -684,11 +772,16 @@ dialog.sheet[open]{animation:sheet var(--slow) var(--ease)}
     fWho:'للتواصل مع تداوىٰ عبر رقم الموبايل',
     meter:'{n} من 3', meterDone:'أتممتم الخطوات الثلاث'
   };
+  AR.st1='نسبة التحمّل على استشارات الطبابة عن بعد'; AR.st2='تحويلات طبية إلى الأخصائي'; AR.st3='عيادات في عمّان والطفيلة وإربد';
+  AR.n1='الرعاية الأولية عبر التطبيق'; AR.n2='الخدمة المناسبة لحالتكم'; AR.n3='متابعة مستمرة مع طبيبكم'; AR.n4='تحويل للاختصاصات الفرعية عند الحاجة';
+  AR.after='نتعامل مع كل حالة حسب احتياجها الطبي، من الاستشارة الأولى حتى المتابعة والتحويل.';
   var EN={title:document.title, copied:'Number copied', meter:'{n} of 3 done', meterDone:'All three steps done',
-          contents:'Contents', close:'Close', quick:'Quick actions', copyNum:'Copy number'};
+          contents:'Contents', close:'Close', quick:'Quick actions', copyNum:'Copy number',
+          after:'We handle each case according to its medical need, from the first consultation to follow-up and referral.'};
   var root=document.documentElement, $=function(s,c){return (c||document).querySelector(s)}, $$=function(s,c){return [].slice.call((c||document).querySelectorAll(s))};
   var reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
   var store={get:function(k){try{return localStorage.getItem(k)}catch(e){return null}},set:function(k,v){try{localStorage.setItem(k,v)}catch(e){}}};
+  var svcKey={now:'svcNow',remote:'svcRemote',clinic:'svcClinic'};
 
   /* contents sheet shares the cover's list */
   $('#toc2').innerHTML=$('#toc').innerHTML;
@@ -702,15 +795,14 @@ dialog.sheet[open]{animation:sheet var(--slow) var(--ease)}
     $$('[data-t]').forEach(function(el){ el.innerHTML=t(el.dataset.t); });
     $$('[data-t-aria]').forEach(function(el){ el.setAttribute('aria-label',t(el.dataset.tAria)); });
     $$('[data-t-alt]').forEach(function(el){ el.alt=t(el.dataset.tAlt); });
-    $$('.spot').forEach(function(b){ b.setAttribute('aria-label',t(b.dataset.svc==='now'?'svcNow':b.dataset.svc==='remote'?'svcRemote':'svcClinic')); });
     /* the Arabic app screen lists the three services in the opposite order */
     var order=lang==='ar'?['remote','clinic','now']:['now','clinic','remote'];
-    $$('.spot').forEach(function(b,i){ b.dataset.svc=order[i]; b.setAttribute('aria-label',t(order[i]==='now'?'svcNow':order[i]==='remote'?'svcRemote':'svcClinic')); });
+    $$('.spot').forEach(function(b,i){ b.dataset.svc=order[i]; b.setAttribute('aria-label',t(svcKey[order[i]])); });
     var shot=$('#shot'); shot.src=shot.dataset[lang];
     document.title=t('title');
     $$('.lang button').forEach(function(b){ b.setAttribute('aria-pressed',String(b.dataset.lang===lang)); });
     if(save) store.set('tdw-guide-lang',lang);
-    meter(); pulses(true); progress();
+    meter(); moveInd(); pulses(true); progress();
   }
   $$('.lang button').forEach(function(b){ b.addEventListener('click',function(){ setLang(b.dataset.lang,true); }); });
 
@@ -728,11 +820,13 @@ dialog.sheet[open]{animation:sheet var(--slow) var(--ease)}
   $('#closeToc').addEventListener('click',function(){ sheet.close(); });
   sheet.addEventListener('click',function(e){ if(e.target===sheet) sheet.close(); });
 
-  /* service tabs */
-  var tabs=$$('.tab');
+  /* service tabs with a sliding indicator */
+  var tabs=$$('.tab'), ind=$('#ind'), cur=0;
+  function moveInd(){ var d=root.dir==='rtl'?-1:1; ind.style.transform='translateX(calc('+(d*cur*100)+'% + '+(d*cur*6)+'px))'; }
   function pick(id,focus){
-    tabs.forEach(function(tb){ var on=tb.dataset.tab===id; tb.setAttribute('aria-selected',String(on)); tb.tabIndex=on?0:-1; if(on&&focus) tb.focus();
+    tabs.forEach(function(tb,i){ var on=tb.dataset.tab===id; if(on) cur=i; tb.setAttribute('aria-selected',String(on)); tb.tabIndex=on?0:-1; if(on&&focus) tb.focus();
       document.getElementById('panel-'+tb.dataset.tab).hidden=!on; });
+    moveInd();
   }
   tabs.forEach(function(tb,i){
     tb.addEventListener('click',function(){ pick(tb.dataset.tab); });
@@ -747,9 +841,9 @@ dialog.sheet[open]{animation:sheet var(--slow) var(--ease)}
   var boxes=$$('.checks input');
   function meter(){
     var n=boxes.filter(function(b){return b.checked}).length, m=$('#meter');
+    $('#bar3').style.setProperty('--n',n);
     m.classList.toggle('done',n===3);
-    m.innerHTML=n===3?'<i class="ph-fill ph-check-circle"></i>'+t('meterDone'):'<span class="lat">'+t('meter').replace('{n}',n)+'</span>';
-    if(lang==='ar'&&n<3) m.innerHTML=t('meter').replace('{n}','<span class="lat">'+n+'</span>').replace('3','<span class="lat">3</span>');
+    m.innerHTML=n===3?'<i class="ph-fill ph-check-circle"></i>'+t('meterDone'):t('meter').replace('3','<span class="lat">3</span>').replace('{n}','<span class="lat">'+n+'</span>');
   }
   var saved=(store.get('tdw-guide-ins')||'').split('');
   boxes.forEach(function(b,i){ b.checked=saved[i]==='1'; b.addEventListener('change',function(){ store.set('tdw-guide-ins',boxes.map(function(x){return x.checked?'1':'0'}).join('')); meter(); }); });
@@ -763,17 +857,51 @@ dialog.sheet[open]{animation:sheet var(--slow) var(--ease)}
     function fallback(){ var el=$$('.num').filter(function(n){return n.textContent===txt})[0]; if(el){ var r=document.createRange(); r.selectNodeContents(el); var s=getSelection(); s.removeAllRanges(); s.addRange(r); } say(txt); }
   }
 
-  /* reading progress + current section */
+  /* reading progress, current section, and the steps rail that fills as you read */
   var secs=['welcome','what','start','why','services','benefits','next','clinics'].map(function(id){return document.getElementById(id)});
-  var bar=$('#progress'), tick=false;
+  var bar=$('#progress'), tick=false, stepsEl=$('#steps'), railEl=$('.rail'), stepEls=$$('.step');
+  if(!reduce) stepsEl.classList.add('live');
+  function rail(){
+    var last=stepEls[stepEls.length-1], h=last.offsetTop; railEl.style.height=h+'px';
+    if(reduce) return;
+    var top=railEl.getBoundingClientRect().top, p=Math.max(0,Math.min(1,(innerHeight*.62-top)/Math.max(1,h)));
+    railEl.style.setProperty('--p',p);
+    stepEls.forEach(function(s){ s.classList.toggle('on',s.offsetTop<=p*h+1); });
+  }
   function progress(){
     var max=document.documentElement.scrollHeight-innerHeight, y=scrollY||document.documentElement.scrollTop;
     bar.style.width=(max>0?Math.min(100,y/max*100):0)+'%';
-    var cur=null; secs.forEach(function(s){ if(s.getBoundingClientRect().top<innerHeight*.4) cur=s.id; });
-    $$('.toc button').forEach(function(b){ if(b.dataset.go===cur) b.setAttribute('aria-current','true'); else b.removeAttribute('aria-current'); });
+    var c=null; secs.forEach(function(s){ if(s.getBoundingClientRect().top<innerHeight*.4) c=s.id; });
+    $$('.toc button').forEach(function(b){ if(b.dataset.go===c) b.setAttribute('aria-current','true'); else b.removeAttribute('aria-current'); });
+    rail();
   }
   function showSeen(){ $$('.rv-wait').forEach(function(el){ if(el.getBoundingClientRect().top<innerHeight) el.classList.remove('rv-wait'); }); }
   addEventListener('scroll',function(){ showSeen(); if(tick) return; tick=true; requestAnimationFrame(function(){ tick=false; progress(); }); },{passive:true});
+
+  /* pointer: a soft tint follows it on cards, and the phone leans toward it */
+  if(matchMedia('(hover:hover)').matches){
+    document.addEventListener('pointermove',function(e){
+      var c=e.target.closest&&e.target.closest('.sp'); if(!c) return;
+      var r=c.getBoundingClientRect(); c.style.setProperty('--mx',(e.clientX-r.left)+'px'); c.style.setProperty('--my',(e.clientY-r.top)+'px');
+    },{passive:true});
+    var stage=$('#what'), ph=$('.phone');
+    if(!reduce){
+      stage.addEventListener('pointermove',function(e){
+        var r=ph.getBoundingClientRect(), dx=(e.clientX-(r.left+r.width/2))/innerWidth, dy=(e.clientY-(r.top+r.height/2))/innerHeight;
+        ph.style.setProperty('--ry',Math.max(-12,Math.min(12,dx*26))+'deg'); ph.style.setProperty('--rx',Math.max(-8,Math.min(8,-dy*16))+'deg');
+      },{passive:true});
+      stage.addEventListener('pointerleave',function(){ ph.style.removeProperty('--ry'); ph.style.removeProperty('--rx'); });
+    }
+    $$('.callout').forEach(function(c){
+      var set=function(on){ $$('.spot').forEach(function(s){ s.classList.toggle('hot',on&&s.dataset.svc===c.dataset.svc); }); };
+      c.addEventListener('pointerenter',function(){ set(true); }); c.addEventListener('pointerleave',function(){ set(false); });
+      c.addEventListener('focus',function(){ set(true); }); c.addEventListener('blur',function(){ set(false); });
+    });
+    $$('.spot').forEach(function(s){
+      var set=function(on){ $$('.callout').forEach(function(c){ c.classList.toggle('hot',on&&c.dataset.svc===s.dataset.svc); }); };
+      s.addEventListener('pointerenter',function(){ set(true); }); s.addEventListener('pointerleave',function(){ set(false); });
+    });
+  }
 
   /* Tadawa pulse: geometry from the logo (baseline, A peak with crossbar, dip, baseline). Never mirrored. */
   var NS='http://www.w3.org/2000/svg', TONE={base:'rgba(255,255,255,.38)',dash:'rgba(255,255,255,.38)',trace:'#ffffff'};
@@ -813,10 +941,14 @@ dialog.sheet[open]{animation:sheet var(--slow) var(--ease)}
   var rz, lastW=innerWidth;
   addEventListener('resize',function(){ clearTimeout(rz); rz=setTimeout(function(){ if(innerWidth!==lastW){ lastW=innerWidth; pulses(true); } progress(); },160); });
 
-  /* calm reveal for content that starts below the fold */
+  /* calm staggered reveal for content that starts below the fold */
   if(!reduce&&'IntersectionObserver' in window){
     var ro=new IntersectionObserver(function(es){ es.forEach(function(e){ if(e.isIntersecting){ e.target.classList.remove('rv-wait'); ro.unobserve(e.target); } }); },{rootMargin:'0px 0px -6% 0px'});
-    requestAnimationFrame(function(){ $$('.rv').forEach(function(el){ if(el.getBoundingClientRect().top>innerHeight){ el.classList.add('rv-wait'); ro.observe(el); } }); });
+    requestAnimationFrame(function(){ $$('.rv').forEach(function(el){
+      if(el.getBoundingClientRect().top>innerHeight){
+        var i=[].indexOf.call(el.parentNode.children,el); el.style.setProperty('--d',(i%4*70)+'ms');
+        el.classList.add('rv-wait'); ro.observe(el);
+      } }); });
   }
 
   var h=(location.hash||'').replace('#','');
