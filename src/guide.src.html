@@ -145,13 +145,6 @@ img{display:block}
 .chip-light i{color:var(--teal)}
 .chip-light:hover{border-color:var(--teal);background:var(--teal-50)}
 @media (max-width:480px){ .step .chips{gap:8px} .step .chip{padding-inline:12px;font-size:14px} }
-.stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;width:100%;margin-top:12px}
-.stat{padding:16px 14px;border-radius:var(--r-lg);display:grid;gap:4px;align-content:start}
-.stat b{font:700 clamp(26px,5vw,40px)/1.1 var(--font-lat);letter-spacing:-.01em}
-:root[lang="ar"] .stat b.w{font-family:var(--font-ar);line-height:1.5;font-size:clamp(24px,4.4vw,34px)}
-.stat span{font-size:13px;line-height:1.45;color:var(--on-brand-muted);min-width:0}
-@media (max-width:620px){ .stats{grid-template-columns:minmax(0,1fr)} .stat{grid-template-columns:84px minmax(0,1fr);align-items:center;gap:12px;padding:12px 18px} .stat span{font-size:14px} }
-:root[lang="ar"] .stat span{line-height:1.7}
 
 .guide{padding:24px;display:grid;gap:18px;min-width:0}
 .guide h2{font-size:clamp(22px,3vw,28px);line-height:1.2;letter-spacing:0;margin-top:6px}
@@ -417,11 +410,6 @@ dialog.sheet[open]{animation:rise var(--slow) var(--ease)}
         <button type="button" class="chip" data-svc="now"><i class="ph-fill ph-phone"></i><span data-t="svcNow">Treat Me Now</span></button>
         <button type="button" class="chip" data-svc="remote"><i class="ph-fill ph-video-camera"></i><span data-t="svcRemote">Remote visit</span></button>
         <button type="button" class="chip" data-svc="clinic"><i class="ph-fill ph-hospital"></i><span data-t="svcClinic">Clinic visit</span></button>
-      </div>
-      <div class="stats">
-        <div class="stat glass"><b>0%</b><span data-t="st1">Co-payment on telemedicine consultations</span></div>
-        <div class="stat glass"><b class="w" data-t="b2big">Free</b><span data-t="st2">Medical referrals to a specialist</span></div>
-        <div class="stat glass"><b>3</b><span data-t="st3">Clinics in Amman, Al Tafileh and Irbid</span></div>
       </div>
     </div>
     <div class="glass guide">
@@ -772,7 +760,7 @@ dialog.sheet[open]{animation:rise var(--slow) var(--ease)}
     fWho:'للتواصل مع تداوىٰ عبر رقم الموبايل',
     meter:'{n} من 3', meterDone:'أتممتم الخطوات الثلاث'
   };
-  AR.st1='نسبة التحمّل على استشارات الطبابة عن بعد'; AR.st2='تحويلات طبية إلى الأخصائي'; AR.st3='عيادات في عمّان والطفيلة وإربد';
+ 
   AR.n1='الرعاية الأولية عبر التطبيق'; AR.n2='الخدمة المناسبة لحالتكم'; AR.n3='متابعة مستمرة مع طبيبكم'; AR.n4='تحويل للاختصاصات الفرعية عند الحاجة';
   AR.after='نتعامل مع كل حالة حسب احتياجها الطبي، من الاستشارة الأولى حتى المتابعة والتحويل.';
   var EN={title:document.title, copied:'Number copied', meter:'{n} of 3 done', meterDone:'All three steps done',
